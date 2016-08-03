@@ -16,13 +16,11 @@ public interface PatientDao {
 	
 	void setDoctorToPatient(int parientId, int doctoeId);
 	
-	//void updatePatientDiagnosis(long patientId);
+	void updateDiagnosisInHospitalCard(int cardId, String diagnosis);
 	
-	void updatePatient(Patient patient);
+	//void updatePatient(Patient patient);
 	
-	Treatment getTreatmentById(int id);
-	
-	//void addTreatment(Treatment treatment);
+	void addTreatment(Treatment treatment);
 	
 	void finishTreatment(int treatmentId);
 	

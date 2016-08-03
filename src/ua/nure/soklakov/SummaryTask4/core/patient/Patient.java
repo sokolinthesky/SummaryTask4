@@ -13,13 +13,22 @@ import ua.nure.soklakov.SummaryTask4.core.Entity;
 public class Patient extends Entity {
 
 	private static final long serialVersionUID = 2613496056932204312L;
-	
+
 	private String firstName;
 	private String lastName;
 	private Date birthday;
 	private int doctorId;
-	private String diagnos;
-	private HospitalCard hospitalCard;
+	private int cardId;
+
+	public Patient(int id, String firstName, String lastName, Date birthday, int doctorId, int cardId) {
+		this.setId(id);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.doctorId = doctorId;
+		this.cardId = cardId;
+
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -53,20 +62,16 @@ public class Patient extends Entity {
 		this.doctorId = doctorId;
 	}
 
-	public String getDiagnos() {
-		return diagnos;
+	public int getCardId() {
+		return cardId;
 	}
 
-	public void setDiagnos(String diagnos) {
-		this.diagnos = diagnos;
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
 	}
 
-	public HospitalCard getHospitalCard() {
-		return hospitalCard;
-	}
-
-	public void setHospitalCard(HospitalCard hospitalCard) {
-		this.hospitalCard = hospitalCard;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

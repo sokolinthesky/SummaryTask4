@@ -1,7 +1,5 @@
 package ua.nure.soklakov.SummaryTask4.core.patient;
 
-import java.util.List;
-
 import ua.nure.soklakov.SummaryTask4.core.Entity;
 
 /**
@@ -13,15 +11,20 @@ import ua.nure.soklakov.SummaryTask4.core.Entity;
 public class HospitalCard extends Entity {
 
 	private static final long serialVersionUID = 8924384621418707436L;
-	
-	List<Treatment> treatments;
 
-	public List<Treatment> getTreatments() {
-		return treatments;
+	private String diagnosis;
+
+	public HospitalCard(int id, String diagnosis) {
+		this.setId(id);
+		this.diagnosis = diagnosis;
 	}
 
-	public void setTreatments(List<Treatment> treatments) {
-		this.treatments = treatments;
+	public String getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
 	}
 
 }

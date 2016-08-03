@@ -18,25 +18,12 @@ public interface UserDao {
 	List<User> getDoctors();
 
 	/**
-	 * Get pediatrician doctors.
+	 * Get doctors by specialtyю
 	 * 
-	 * @return The doctors with pediatrician specialization.
+	 * @param specializationId
+	 * @return
 	 */
-	List<User> getPediatricianDoctors();
-
-	/**
-	 * Get traumatologist doctors.
-	 * 
-	 * @return The doctors with traumatologist specialization.
-	 */
-	List<User> getTraumatologistDoctors();
-
-	/**
-	 * Get surgeon doctors.
-	 * 
-	 * @return The doctors with surgeon specialization.
-	 */
-	List<User> getSurgeonDoctors();
+	List<User> getDoctorsBySpecialization(int specializationId);
 
 	/**
 	 * Add user to database.

@@ -17,19 +17,7 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public List<User> getPediatricianDoctors() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<User> getTraumatologistDoctors() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<User> getSurgeonDoctors() {
+	public List<User> getDoctorsBySpecialization(int specializationId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -37,7 +25,7 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public void addUser(User user) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -45,5 +33,7 @@ public class UserManagerImpl implements UserManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

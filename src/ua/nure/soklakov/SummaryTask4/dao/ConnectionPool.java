@@ -8,9 +8,15 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+/**
+ * The class provides connection pool.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class ConnectionPool {
 	private static DataSource dataSource;
-	
+
 	/**
 	 * Get free connection from pool.
 	 * 
@@ -21,7 +27,7 @@ public class ConnectionPool {
 			try {
 				Context initContext = new InitialContext();
 				Context envContext = (Context) initContext.lookup("java:/comp/env");
-				dataSource = (DataSource) envContext.lookup("jdbc/busstation");
+				dataSource = (DataSource) envContext.lookup("jdbc/hospitaldb");
 			} catch (NamingException e) {
 				System.out.println("Cannot find the data source");
 			}
