@@ -24,8 +24,7 @@
 		<url-pattern>/controller</url-pattern>
 	</servlet-mapping>
 	
-	<!-- <listener>
-		<listener-class>ua.nure.norkin.SummaryTask4.listener.ContextListener</listener-class>
-	</listener> -->
-
+	<listener>
+		<listener-class>ua.nure.soklakov.SummaryTask4.web.listener.ContextListener</listener-class>
+	</listener>
 </web-app>

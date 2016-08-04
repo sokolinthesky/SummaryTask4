@@ -78,10 +78,10 @@ public class LoginCommand extends Command {
 				forward = Path.REDIRECT_TO_VIEW_ALL_DOCTORS;
 
 			if (userRole == Role.DOCTOR)
-				forward = null;
+				forward = Path.REDIRECT_TO_VIEW_ALL_PATIENTS;
 			
 			if(userRole == Role.NURSE) {
-				forward = null;
+				forward = Path.REDIRECT_TO_VIEW_ALL_PATIENTS;
 			}
 
 			session.setAttribute("user", user);

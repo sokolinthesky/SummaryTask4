@@ -105,7 +105,7 @@ public class ContextListener implements ServletContextListener {
 		// initialize commands manager
 		// just load class to JVM
 		try {
-			Class.forName("ua.nure.soklakov.SummaryTask4.we.commands.CommandManager");
+			Class.forName("ua.nure.soklakov.SummaryTask4.web.commands.CommandManager");
 		} catch (ClassNotFoundException ex) {
 			throw new IllegalStateException(
 					"Cannot initialize Command Manager", ex);

@@ -23,7 +23,7 @@ public class CommandManager {
 		
 		
 		// client commands
-		
+		commands.put("listPatients", new ListPatientsCommand());
 		
 		// admin commands
 		commands.put("listDoctors", new ListDoctorsCommand());
