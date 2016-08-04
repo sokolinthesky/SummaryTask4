@@ -2,6 +2,8 @@ package ua.nure.soklakov.SummaryTask4.core.user;
 
 import java.util.List;
 
+import ua.nure.soklakov.SummaryTask4.dao.impl.UserDaoImpl;
+
 /**
  * UserDao implementation.
  * 
@@ -9,6 +11,8 @@ import java.util.List;
  *
  */
 public class UserManagerImpl implements UserManager {
+	
+	UserDao userDao = new UserDaoImpl();
 
 	@Override
 	public List<User> getDoctors() {
@@ -30,8 +34,7 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public User getUserByLogin(String login) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getUserByLogin(login);
 	}
 
 	

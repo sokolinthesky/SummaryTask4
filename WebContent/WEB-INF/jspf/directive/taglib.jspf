@@ -1,0 +1,22 @@
+<%--===========================================================================
+JSTL core tag library.
+===========================================================================--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%--===========================================================================
+JSTL functions tag library.
+===========================================================================--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<!-- Custom tag  -->
+<%-- <%@ taglib uri="/WEB-INF/customtag.tld" prefix="marks"%> --%>
+<%--===========================================================================
+JSTL i18n tag library.
+===========================================================================--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%--===========================================================================
+ Switch ON i18n support
+===========================================================================--%>
+<c:set var="language"
+	value="${not empty lang ? lang : pageContext.request.locale.language}"
+	scope="session" />
+<fmt:setLocale value="${language}" />

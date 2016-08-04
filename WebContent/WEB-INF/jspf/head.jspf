@@ -1,0 +1,19 @@
+<%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+
+<head>
+
+<title>${title}</title>
+
+<link rel="stylesheet" type="text/css" media="screen"
+	href="css/main.css" />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+ <script type="text/javascript"
+	src="script/jquery-1.11.2.min.js"></script>
+<script type="text/javascript"
+	src="script/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="css/jquery.dataTables.min.css">
+</head>

@@ -22,6 +22,8 @@ public interface PatientDao {
 	
 	int addHospitalCard();
 	
+	List<Treatment> getTreatmentsByCardId(int cardId);
+	
 	void addTreatment(Treatment treatment);
 	
 	void finishTreatment(int treatmentId);

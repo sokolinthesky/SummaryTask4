@@ -105,15 +105,37 @@ public class PatientDaoImpl implements PatientDao {
 			statement.executeUpdate(Query.CREATE_HOSPITAL_CARD, Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs = statement.getGeneratedKeys();
 			if (rs != null && rs.next()) {
-			    cardId = rs.getInt(1);
+				cardId = rs.getInt(1);
 			}
 		} catch (SQLException ex) {
 			LOG.error("Can not create hospital card", ex);
 		} finally {
 			closeConnection();
 		}
-		
+
 		return cardId;
+	}
+
+	@Override
+	public List<Treatment> getTreatmentsByCardId(int cardId) {
+		List<Treatment> treatments = new ArrayList<>();
+		connection = ConnectionPool.getConnection();
+		try (final PreparedStatement prStatement = this.connection
+				.prepareStatement(Query.SELECT_TREATMENTS_BY_HOSPITAL_CARD)) {
+			prStatement.setInt(1, cardId);
+			ResultSet rs = prStatement.executeQuery();
+			while (rs.next()) {
+				treatments.add(new Treatment(rs.getInt("id"), rs.getInt("type_of_treatment_id"),
+						rs.getInt("hospital_card_id"), rs.getString("name_of_medication")));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
+
+		return treatments;
 	}
 
 	@Override

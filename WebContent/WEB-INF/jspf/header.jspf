@@ -1,0 +1,36 @@
+<!-- Header - top area. -->
+
+<%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+
+<br>
+<br>
+<%-- 
+<div class="menu">
+	<a href="controller?command=viewAllFaculties"><fmt:message
+			key="header_jspf.anchor.faculties" /></a>
+	<c:choose>
+		<c:when test="${empty user}">
+			<a href="welcome.jsp"> <fmt:message
+					key="header_jspf.anchor.login" /></a>
+			<a href="controller?command=client_registration"><fmt:message
+					key="header_jspf.anchor.register" /></a>
+		</c:when>
+		<c:otherwise>
+			<c:if test="${userRole eq 'admin'}">
+				<a href="controller?command=viewAllSubjects"><fmt:message
+						key="header_jspf.anchor.subjects" /></a>
+			</c:if>
+			<a href="controller?command=viewProfile"><fmt:message
+					key="header_jspf.anchor.profile" /></a>
+			<a href="controller?command=logout"><fmt:message
+					key="header_jspf.anchor.logout" /></a>
+		</c:otherwise>
+	</c:choose>
+</div> --%>
+<br>
+<br>
+<br>
+<br>
+
+
