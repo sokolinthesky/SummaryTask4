@@ -18,7 +18,9 @@ public interface PatientDao {
 	
 	void updateDiagnosisInHospitalCard(int cardId, String diagnosis);
 	
-	//void updatePatient(Patient patient);
+	HospitalCard getHospitalCardById(int id);
+	
+	int addHospitalCard();
 	
 	void addTreatment(Treatment treatment);
 	

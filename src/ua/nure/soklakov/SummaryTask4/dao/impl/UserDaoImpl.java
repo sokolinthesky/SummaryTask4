@@ -16,15 +16,15 @@ import ua.nure.soklakov.SummaryTask4.dao.ConnectionPool;
 import ua.nure.soklakov.SummaryTask4.dao.Query;
 
 /**
- * The Implementation of UserDao interface.
+ * An Implementation of UserDao interface.
  * 
  * @author Oleg Soklakov
  *
  */
 public class UserDaoImpl implements UserDao {
-	
+
 	private final static Logger LOG = Logger.getLogger(UserDaoImpl.class);
-	
+
 	private Connection connection;
 
 	@Override
