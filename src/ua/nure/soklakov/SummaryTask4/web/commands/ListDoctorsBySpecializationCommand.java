@@ -1,9 +1,7 @@
 package ua.nure.soklakov.SummaryTask4.web.commands;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,19 +13,18 @@ import ua.nure.soklakov.SummaryTask4.Path;
 import ua.nure.soklakov.SummaryTask4.core.user.User;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManager;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManagerImpl;
-import ua.nure.soklakov.SummaryTask4.dao.impl.UserDaoImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
-public class ListDoctorsCommand extends Command {
+public class ListDoctorsBySpecializationCommand extends Command {
 
-	private static final long serialVersionUID = 7723206619340362128L;
+	private static final long serialVersionUID = -7126747068896099191L;
 	
-	private static final Logger LOG = Logger.getLogger(ListDoctorsCommand.class);
+	private static final Logger LOG = Logger.getLogger(ListDoctorsBySpecializationCommand.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
-		LOG.debug("Start executing Command");
+LOG.debug("Start executing Command");
 		
 		String result = null;
 		
@@ -47,10 +44,12 @@ public class ListDoctorsCommand extends Command {
 	 */
 	private String doGet(HttpServletRequest request,
 			HttpServletResponse response) {
+		int specializationId = Integer.parseInt(request.getParameter("specializationId"));
+		
 		UserManager manager = new UserManagerImpl();
 		
-		Collection<User> doctors = manager.getDoctors();
-		LOG.trace("Doctors found: " + doctors);
+		Collection<User> doctors = manager.getDoctorsBySpecialization(specializationId);
+		LOG.trace("Doctors found by specialization: " + doctors);
 		
 		request.setAttribute("doctors", doctors);
 		

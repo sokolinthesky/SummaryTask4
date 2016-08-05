@@ -11,32 +11,27 @@ import ua.nure.soklakov.SummaryTask4.dao.impl.UserDaoImpl;
  *
  */
 public class UserManagerImpl implements UserManager {
-	
+
 	UserDao userDao = new UserDaoImpl();
 
 	@Override
 	public List<User> getDoctors() {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getDoctors();
 	}
 
 	@Override
 	public List<User> getDoctorsBySpecialization(int specializationId) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getDoctorsBySpecialization(specializationId);
 	}
 
 	@Override
 	public void addUser(User user) {
-		// TODO Auto-generated method stub
-		
+		userDao.addUser(user);
 	}
 
 	@Override
 	public User getUserByLogin(String login) {
 		return userDao.getUserByLogin(login);
 	}
-
-	
 
 }
