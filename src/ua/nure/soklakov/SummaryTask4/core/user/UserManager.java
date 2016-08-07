@@ -42,4 +42,8 @@ public interface UserManager {
 	 */
 	User getUserByLogin(String login);
 
+	List<Role> getRoles();
+
+	List<Specialization> getSpecializations();
+
 }

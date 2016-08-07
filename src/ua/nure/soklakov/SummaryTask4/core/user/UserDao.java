@@ -41,5 +41,9 @@ public interface UserDao {
 	 * @return user who was found in database.
 	 */
 	User getUserByLogin(String login);
+	
+	List<Role> getRoles();
 
+	
+	List<Specialization> getSpecializations();
 }

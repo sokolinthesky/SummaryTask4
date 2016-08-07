@@ -34,4 +34,14 @@ public class UserManagerImpl implements UserManager {
 		return userDao.getUserByLogin(login);
 	}
 
+	@Override
+	public List<Role> getRoles() {
+		return userDao.getRoles();
+	}
+
+	@Override
+	public List<Specialization> getSpecializations() {
+		return userDao.getSpecializations();
+	}
+
 }

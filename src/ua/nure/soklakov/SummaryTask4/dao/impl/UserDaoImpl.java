@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.soklakov.SummaryTask4.core.user.Role;
+import ua.nure.soklakov.SummaryTask4.core.user.Specialization;
 import ua.nure.soklakov.SummaryTask4.core.user.User;
 import ua.nure.soklakov.SummaryTask4.core.user.UserDao;
 import ua.nure.soklakov.SummaryTask4.dao.ConnectionPool;
@@ -82,10 +84,10 @@ public class UserDaoImpl implements UserDao {
 			pStatement.setString(3, user.getFirstName());
 			pStatement.setString(4, user.getLastName());
 			pStatement.setInt(5, user.getRoleId());
-			pStatement.setInt(5, user.getSpecializationId());
-			pStatement.setInt(5, user.getCountOfPatients());
+			pStatement.setInt(6, user.getSpecializationId());
+			pStatement.setInt(7, user.getCountOfPatients());
 
-			pStatement.executeUpdate();
+			System.out.println("!!!!!!!!!!!" + pStatement.executeUpdate());
 		} catch (SQLException ex) {
 			LOG.error("Can not create a new user", ex);
 		} finally {
@@ -115,6 +117,65 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		return user;
+	}
+
+	@Override
+	public List<Role> getRoles() {
+		List<Role> roles = new ArrayList<>();
+		connection = ConnectionPool.getConnection();
+		try (Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(Query.SELECT_ALL_ROLES)) {
+			while (resultSet.next()) {
+				Role role = null;
+				if (resultSet.getString("name").equals("admin")) {
+					role = Role.ADMIN;
+					role.setId(resultSet.getInt("id"));
+				} else if (resultSet.getString("name").equals("doctor")) {
+					role = Role.DOCTOR;
+					role.setId(resultSet.getInt("id"));
+				} else if (resultSet.getString("name").equals("nurse")) {
+					role = Role.NURSE;
+					role.setId(resultSet.getInt("id"));
+				}
+				roles.add(role);
+			}
+
+		} catch (SQLException ex) {
+			LOG.error("Can not find a roles", ex);
+		} finally {
+			closeConnection();
+		}
+
+		return roles;
+	}
+
+	@Override
+	public List<Specialization> getSpecializations() {
+		List<Specialization> specializations = new ArrayList<>();
+		connection = ConnectionPool.getConnection();
+		try (Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(Query.SELECT_ALL_SPECIALIZATIONS)) {
+			while (resultSet.next()) {
+				Specialization specialization = null;
+				if (resultSet.getString("title").equals("Pediatrician")) {
+					specialization = Specialization.PEDIATRICIAN;
+				} else if (resultSet.getString("title").equals("Traumatologist")) {
+					specialization = Specialization.TRAUMATOLOGIST;
+				} else if (resultSet.getString("title").equals("Surgeon")) {
+					specialization = Specialization.SURGEON;
+				}
+
+				specialization.setId(resultSet.getInt("id"));
+				specializations.add(specialization);
+			}
+
+		} catch (SQLException ex) {
+			LOG.error("Can not find a specializations", ex);
+		} finally {
+			closeConnection();
+		}
+
+		return specializations;
 	}
 
 	/**

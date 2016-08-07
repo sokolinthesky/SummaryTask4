@@ -28,6 +28,9 @@ public class CommandManager {
 		// admin commands
 		commands.put("listDoctors", new ListDoctorsCommand());
 		commands.put("listDoctorsBySpecialization", new ListDoctorsBySpecializationCommand());
+		commands.put("addUser", new AddUserCommand());
+		commands.put("addPatient", new AddPatientCommand());
+		commands.put("appointDoctor", new AppointDoctorCommand());
 		
 		LOG.debug("Command container was successfully initialized");
 		LOG.trace("Total number of commands equals to " + commands.size());

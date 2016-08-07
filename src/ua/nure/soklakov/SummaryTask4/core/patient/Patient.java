@@ -29,6 +29,13 @@ public class Patient extends Entity {
 		this.cardId = cardId;
 
 	}
+	
+	public Patient(String firstName, String lastName, Date birthday) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+
+	}
 
 	public String getFirstName() {
 		return firstName;

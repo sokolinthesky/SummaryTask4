@@ -13,10 +13,13 @@ public class Query {
 	public static final String SELECT_DOCTORS_BY_SPEC = "SELECT * FROM users WHERE specialization_id = (?)";
 	public static final String INSERT_USER = "INSERT INTO users (login, password, first_name, last_name, role_id, specialization_id, count_of_patients) VALUES (?, ?, ?, ?,  ?, ?, ?)";
 	public static final String SELECT_USER_BY_LOGIN = "SELECT * FROM users WHERE login = (?)";
+	public static final String SELECT_ALL_ROLES = "SELECT * FROM roles";
+	public static final String SELECT_ALL_SPECIALIZATIONS = "SELECT * FROM specializations";
+	public static final String INCREMENT_COUNT_OF_PATIENTS = "UPDATE users SET count_of_patients=count_of_patients+1 WHERE id=?";
 
 	// patient
 	public static final String SELECT_ALL_PATIENTS = "SELECT * FROM patients;";
-	public static final String INSERT_PATIENT = "INSERT INTO patients (first_name, last_name, birthday, card_id, doctor_id) VALUES (?,?,?,?,?)";
+	public static final String INSERT_PATIENT = "INSERT INTO patients (first_name, last_name, birthday, card_id) VALUES (?,?,?,?)";
 	public static final String SET_DOCTOR_TO_PATIENT = "UPDATE patients SET doctor_id = ? WHERE id = ?";
 	public static final String UPDATE_DIAGNOSIS = "UPDATE hospital_card SET diagnosis = ? WHERE id = ?";
 	public static final String CREATE_HOSPITAL_CARD = "INSERT INTO hospital_card (diagnosis) VALUE (null)";

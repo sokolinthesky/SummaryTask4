@@ -56,7 +56,7 @@ public class PatientDaoImpl implements PatientDao {
 			pStatement.setString(2, patient.getLastName());
 			pStatement.setDate(3, patient.getBirthday());
 			pStatement.setInt(4, patient.getCardId());
-			pStatement.setInt(5, patient.getDoctorId());
+			//pStatement.setInt(5, patient.getDoctorId());
 			pStatement.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -70,10 +70,18 @@ public class PatientDaoImpl implements PatientDao {
 	@Override
 	public void setDoctorToPatient(int parientId, int doctoeId) {
 		connection = ConnectionPool.getConnection();
-		try (PreparedStatement pStatement = connection.prepareStatement(Query.SET_DOCTOR_TO_PATIENT)) {
+		try (PreparedStatement pStatement = connection.prepareStatement(Query.SET_DOCTOR_TO_PATIENT);
+				PreparedStatement psIncrement = connection.prepareStatement(Query.INCREMENT_COUNT_OF_PATIENTS)) {
+			connection.setAutoCommit(false);
+			
 			pStatement.setInt(1, doctoeId);
 			pStatement.setInt(2, parientId);
 			pStatement.executeUpdate();
+			
+			psIncrement.setInt(1, doctoeId);
+			psIncrement.executeUpdate();
+			
+			connection.commit();
 		} catch (SQLException ex) {
 			LOG.error("Can not set a doctor to the patient", ex);
 		} finally {

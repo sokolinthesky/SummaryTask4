@@ -1,9 +1,7 @@
 package ua.nure.soklakov.SummaryTask4.web.commands;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.nure.soklakov.SummaryTask4.Path;
+import ua.nure.soklakov.SummaryTask4.core.user.Specialization;
 import ua.nure.soklakov.SummaryTask4.core.user.User;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManager;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManagerImpl;
-import ua.nure.soklakov.SummaryTask4.dao.impl.UserDaoImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
 public class ListDoctorsCommand extends Command {
@@ -52,7 +50,12 @@ public class ListDoctorsCommand extends Command {
 		Collection<User> doctors = manager.getDoctors();
 		LOG.trace("Doctors found: " + doctors);
 		
+		Collection<Specialization> specializations = manager.getSpecializations();
+		LOG.trace("Specializations found: " + specializations);
+		
 		request.setAttribute("doctors", doctors);
+		
+		request.getSession().setAttribute("specializations", specializations);
 		
 		return Path.FORWARD_VIEW_ALL_DOCTORS;
 	}

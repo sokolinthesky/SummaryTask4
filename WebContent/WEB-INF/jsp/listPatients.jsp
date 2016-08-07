@@ -6,9 +6,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Patients<br>
-	<c:forEach var="str" items="${list}">
-		${str}<br>
+	Patients:<br>
+	<c:forEach var="patient" items="${patients}">
+		* ${patient.firstName} <a href="controller?command=listDoctors&patientId=${patient.id}">set doctor</a>
+		<br>
 	</c:forEach>
 	<c:if test="${userRole == 'DOCTOR'}">
 		Doctor content!<br>
