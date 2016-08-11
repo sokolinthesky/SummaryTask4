@@ -29,8 +29,7 @@ public class LoginCommand extends Command {
 	private static final Logger LOG = Logger.getLogger(LoginCommand.class);
 
 	@Override
-	public String execute(HttpServletRequest request,
-			HttpServletResponse response, ActionType actionType)
+	public String execute(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
 
 		LOG.debug("Start executing Command");
@@ -52,35 +51,35 @@ public class LoginCommand extends Command {
 	 *
 	 * @return path to the view of all faculties.
 	 */
-	private String doPost(HttpServletRequest request,
-			HttpServletResponse response) {
+	private String doPost(HttpServletRequest request, HttpServletResponse response) {
 		String forward = Path.ERROR_PAGE;
 
 		HttpSession session = request.getSession();
-		
+
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
 
 		UserManager manager = new UserManagerImpl();
-		
+
 		User user = manager.getUserByLogin(login);
-		
+
 		LOG.trace("User found: " + user);
 		if (user == null || !password.equals(user.getPassword())) {
-			request.setAttribute("errorMessage",
-					"Cannot find user with such login/password");
+			request.setAttribute("errorMessage", "Cannot find user with such login/password");
 			LOG.error("errorMessage: Cannot find user with such login/password");
 		} else {
 			Role userRole = Role.getRole(user);
 			LOG.trace("userRole --> " + userRole);
 
-			if (userRole == Role.ADMIN)
+			if (userRole == Role.ADMIN) {
 				forward = Path.REDIRECT_TO_VIEW_ALL_DOCTORS;
+			}
 
-			if (userRole == Role.DOCTOR)
-				forward = Path.REDIRECT_TO_VIEW_ALL_PATIENTS;
-			
-			if(userRole == Role.NURSE) {
+			if (userRole == Role.DOCTOR) {
+				forward = Path.REDIRECT_TO_VIEW_PATIENTS_BY_DOCTOR_ID;
+			}
+
+			if (userRole == Role.NURSE) {
 				forward = Path.REDIRECT_TO_VIEW_ALL_PATIENTS;
 			}
 

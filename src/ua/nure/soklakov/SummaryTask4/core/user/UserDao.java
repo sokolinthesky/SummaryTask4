@@ -42,6 +42,8 @@ public interface UserDao {
 	 */
 	User getUserByLogin(String login);
 	
+	User getUserById(int id);
+	
 	List<Role> getRoles();
 
 	

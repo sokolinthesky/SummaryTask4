@@ -41,6 +41,8 @@ public interface UserManager {
 	 * @return user who was found in database.
 	 */
 	User getUserByLogin(String login);
+	
+	User getUserById(int id);
 
 	List<Role> getRoles();
 

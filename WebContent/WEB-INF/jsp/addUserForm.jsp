@@ -24,7 +24,7 @@
 			name="firsName"><br> Last name<input type="text" name="lastName"><br>
 
 		Role<select id="mySelect" onchange="JoinedOrNot()" name="roleId">
-			<c:forEach var="role" items="${roles}">ё
+			<c:forEach var="role" items="${roles}">
 				<option value="${role.id}">${role}</option>
 			</c:forEach>
 		</select><br>

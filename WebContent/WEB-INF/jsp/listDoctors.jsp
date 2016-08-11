@@ -6,6 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
 	<c:forEach var="specialization" items="${specializations}">
 		<a href="controller?command=listDoctorsBySpecialization&specializationId=${specialization.id}">${specialization}</a><br>  
 	</c:forEach>

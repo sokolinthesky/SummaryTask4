@@ -44,4 +44,9 @@ public class UserManagerImpl implements UserManager {
 		return userDao.getSpecializations();
 	}
 
+	@Override
+	public User getUserById(int id) {
+		return userDao.getUserById(id);
+	}
+
 }

@@ -55,4 +55,30 @@ public class PatientManagerImpl implements PatientManager {
 		patientDao.finishTreatment(treatmentId);
 	}
 
+	@Override
+	public List<Patient> getPatientsByDoctorId(int doctorId) {
+		return patientDao.getPatientsByDoctorId(doctorId);
+	}
+
+	@Override
+	public List<TypeOfTreatment> getTypesOfTreatment() {
+		return patientDao.getTypesOfTreatment();
+	}
+
+	@Override
+	public List<Patient> getDischargedPatientsByDoctorId(int doctorId) {
+		return patientDao.getDischargedPatientsByDoctorId(doctorId);
+	}
+
+	@Override
+	public void compleateTheCourseOfTreatment(Patient patient) {
+		patientDao.compleateTheCourseOfTreatment(patient);
+		
+	}
+
+	@Override
+	public Patient getPatientByHospitalCardId(int hospitalCardId) {
+		return patientDao.getPatientByHospitalCardId(hospitalCardId);
+	}
+
 }

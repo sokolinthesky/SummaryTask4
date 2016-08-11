@@ -1,0 +1,6 @@
+FirstName: 123
+LastName: 123
+Diagmosis: ddddiaagnos
+Doctor: Petr Petrov
+Treatments: 
+ TypeOfTreatment: PROCEDURE | Name: ddd | isDone: false TypeOfTreatment: OPERATION | Name: wqerqwer | isDone: true TypeOfTreatment: MEDICINE | Name: rr | isDone: false

@@ -12,6 +12,16 @@ public interface PatientDao {
 
 	List<Patient> getPatients();
 	
+	List<Treatment> getTreatmentsByCardId(int cardId);
+	
+	List<Patient> getPatientsByDoctorId(int doctorId);
+	
+	List<TypeOfTreatment> getTypesOfTreatment();
+	
+	List<Patient> getDischargedPatientsByDoctorId(int doctorId);
+	
+	void compleateTheCourseOfTreatment(Patient patient);
+	
 	void addPatient(Patient patient);
 	
 	void setDoctorToPatient(int parientId, int doctoeId);
@@ -20,9 +30,9 @@ public interface PatientDao {
 	
 	HospitalCard getHospitalCardById(int id);
 	
-	int addHospitalCard();
+	Patient getPatientByHospitalCardId(int hospitalCardId);
 	
-	List<Treatment> getTreatmentsByCardId(int cardId);
+	int addHospitalCard();
 	
 	void addTreatment(Treatment treatment);
 	

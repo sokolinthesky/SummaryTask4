@@ -1,0 +1,6 @@
+FirstName: Василий
+LastName: Фидлер
+Diagmosis: Отравление
+Doctor: Petr Petrov
+Treatments:
+ TypeOfTreatment: OPERATION | Name: прокол | isDone: false

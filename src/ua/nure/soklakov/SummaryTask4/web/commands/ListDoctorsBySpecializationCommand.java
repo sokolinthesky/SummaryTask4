@@ -18,41 +18,39 @@ import ua.nure.soklakov.SummaryTask4.web.ActionType;
 public class ListDoctorsBySpecializationCommand extends Command {
 
 	private static final long serialVersionUID = -7126747068896099191L;
-	
+
 	private static final Logger LOG = Logger.getLogger(ListDoctorsBySpecializationCommand.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
-LOG.debug("Start executing Command");
-		
+		LOG.debug("Start executing Command");
+
 		String result = null;
-		
+
 		if (ActionType.GET == actionType) {
 			result = doGet(request, response);
 		}
-		
+
 		LOG.debug("Finished executing Command");
 		return result;
 	}
-	
+
 	/**
-	 * Forward user to page of all doctors. View type depends on the user
-	 * role.
+	 * Forward user to page of all doctors. View type depends on the user role.
 	 *
 	 * @return to view of all doctors
 	 */
-	private String doGet(HttpServletRequest request,
-			HttpServletResponse response) {
+	private String doGet(HttpServletRequest request, HttpServletResponse response) {
 		int specializationId = Integer.parseInt(request.getParameter("specializationId"));
-		
+
 		UserManager manager = new UserManagerImpl();
-		
+
 		Collection<User> doctors = manager.getDoctorsBySpecialization(specializationId);
 		LOG.trace("Doctors found by specialization: " + doctors);
-		
+
 		request.setAttribute("doctors", doctors);
-		
+
 		return Path.FORWARD_VIEW_ALL_DOCTORS;
 	}
 

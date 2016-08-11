@@ -17,8 +17,15 @@ public class Treatment extends Entity {
 	private String nameOfMedication;
 	private boolean done;
 	
-	public Treatment(int id, int typeOfTreatmentId, int hospitalCardId, String nameOfMedication) {
+	public Treatment(int id, int typeOfTreatmentId, int hospitalCardId, String nameOfMedication, boolean done) {
 		this.setId(id);
+		this.typeOfTreatmentId = typeOfTreatmentId;
+		this.hospitalCardId = hospitalCardId;
+		this.nameOfMedication = nameOfMedication;
+		this.done = done;
+	}
+	
+	public Treatment(int typeOfTreatmentId, int hospitalCardId, String nameOfMedication) {
 		this.typeOfTreatmentId = typeOfTreatmentId;
 		this.hospitalCardId = hospitalCardId;
 		this.nameOfMedication = nameOfMedication;

@@ -30,11 +30,18 @@ public class Patient extends Entity {
 
 	}
 	
+	public Patient(int id, String firstName, String lastName, Date birthday, int doctorId) {
+		this.setId(id);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.doctorId = doctorId;
+	}
+	
 	public Patient(String firstName, String lastName, Date birthday) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
-
 	}
 
 	public String getFirstName() {
@@ -75,10 +82,6 @@ public class Patient extends Entity {
 
 	public void setCardId(int cardId) {
 		this.cardId = cardId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }

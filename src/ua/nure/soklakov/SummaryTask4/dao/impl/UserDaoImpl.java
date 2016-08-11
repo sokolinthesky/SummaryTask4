@@ -120,6 +120,30 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	public User getUserById(int id) {
+		User user = null;
+		connection = ConnectionPool.getConnection();
+		try (PreparedStatement ps = connection.prepareStatement(Query.SELECT_USER_BY_ID)) {
+			ps.setInt(1, id);
+			ps.execute();
+
+			ResultSet rs = ps.getResultSet();
+			if (rs.next()) {
+				user = new User(rs.getInt("id"), rs.getString("login"), rs.getString("password"),
+						rs.getString("first_name"), rs.getString("last_name"), rs.getInt("role_id"),
+						rs.getInt("specialization_id"), rs.getInt("count_of_patients"));
+			}
+			rs.close();
+		} catch (SQLException ex) {
+			LOG.error("Can not find user by id", ex);
+		} finally {
+			closeConnection();
+		}
+
+		return user;
+	}
+
+	@Override
 	public List<Role> getRoles() {
 		List<Role> roles = new ArrayList<>();
 		connection = ConnectionPool.getConnection();

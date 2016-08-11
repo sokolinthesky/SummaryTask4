@@ -14,6 +14,7 @@ import ua.nure.soklakov.SummaryTask4.core.patient.HospitalCard;
 import ua.nure.soklakov.SummaryTask4.core.patient.Patient;
 import ua.nure.soklakov.SummaryTask4.core.patient.PatientDao;
 import ua.nure.soklakov.SummaryTask4.core.patient.Treatment;
+import ua.nure.soklakov.SummaryTask4.core.patient.TypeOfTreatment;
 import ua.nure.soklakov.SummaryTask4.dao.ConnectionPool;
 import ua.nure.soklakov.SummaryTask4.dao.Query;
 
@@ -49,6 +50,57 @@ public class PatientDaoImpl implements PatientDao {
 	}
 
 	@Override
+	public List<TypeOfTreatment> getTypesOfTreatment() {
+		List<TypeOfTreatment> typesOfTreatment = new ArrayList<>();
+		connection = ConnectionPool.getConnection();
+		try (Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery(Query.SELECT_ALL_TYPES_OF_TREATMENT)) {
+			while (rs.next()) {
+				TypeOfTreatment typeOfTreatment = null;
+				if (rs.getString("title").toUpperCase().equals(TypeOfTreatment.MEDICINE.toString())) {
+					typeOfTreatment = TypeOfTreatment.MEDICINE;
+				} else if (rs.getString("title").toUpperCase().equals(TypeOfTreatment.PROCEDURE.toString())) {
+					typeOfTreatment = TypeOfTreatment.PROCEDURE;
+				} else if (rs.getString("title").toUpperCase().equals(TypeOfTreatment.OPERATION.toString())) {
+					typeOfTreatment = TypeOfTreatment.OPERATION;
+				}
+				
+				typeOfTreatment.setId(rs.getInt("id"));
+				typesOfTreatment.add(typeOfTreatment);
+			}
+
+		} catch (SQLException ex) {
+			LOG.error("Can not find a types of treatment", ex);
+		} finally {
+			closeConnection();
+		}
+		return typesOfTreatment;
+	}
+
+
+	@Override
+	public List<Patient> getPatientsByDoctorId(int doctorId) {
+		List<Patient> patients = new ArrayList<>();
+		connection = ConnectionPool.getConnection();
+		try (PreparedStatement pStatement = connection.prepareStatement(Query.SELECT_PATIENTS_BY_DOCTOR_ID)) {
+			pStatement.setInt(1, doctorId);
+			pStatement.execute();
+			
+			ResultSet rs = pStatement.getResultSet();
+			while (rs.next()) {
+				patients.add(new Patient(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+						rs.getDate("birthday"), rs.getInt("doctor_id"), rs.getInt("card_id")));
+			}
+
+		} catch (SQLException ex) {
+			LOG.error("Can not find a patients by doctor id", ex);
+		} finally {
+			closeConnection();
+		}
+		return patients;
+	}
+
+	@Override
 	public void addPatient(Patient patient) {
 		connection = ConnectionPool.getConnection();
 		try (PreparedStatement pStatement = connection.prepareStatement(Query.INSERT_PATIENT)) {
@@ -56,7 +108,6 @@ public class PatientDaoImpl implements PatientDao {
 			pStatement.setString(2, patient.getLastName());
 			pStatement.setDate(3, patient.getBirthday());
 			pStatement.setInt(4, patient.getCardId());
-			//pStatement.setInt(5, patient.getDoctorId());
 			pStatement.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -134,7 +185,7 @@ public class PatientDaoImpl implements PatientDao {
 			ResultSet rs = prStatement.executeQuery();
 			while (rs.next()) {
 				treatments.add(new Treatment(rs.getInt("id"), rs.getInt("type_of_treatment_id"),
-						rs.getInt("hospital_card_id"), rs.getString("name_of_medication")));
+						rs.getInt("hospital_card_id"), rs.getString("name_of_medication"), rs.getBoolean("done")));
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -198,6 +249,91 @@ public class PatientDaoImpl implements PatientDao {
 		}
 
 		return card;
+	}
+
+	@Override
+	public Patient getPatientByHospitalCardId(int hospitalCardId) {
+		connection = ConnectionPool.getConnection();
+		Patient patient = null;
+		try (PreparedStatement ps = connection.prepareStatement(Query.SELECT_PATIENT_BY_HOSPITAL_CARD_ID)) {
+			ps.setInt(1, hospitalCardId);
+			ps.execute();
+
+			ResultSet rs = ps.getResultSet();
+			if (rs.next()) {
+				patient = new Patient(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+						rs.getDate("birthday"), rs.getInt("doctor_id"), rs.getInt("card_id"));
+			}
+			rs.close();
+		} catch (SQLException ex) {
+			LOG.error("Can not find patient by hospital card id", ex);
+		} finally {
+			closeConnection();
+		}
+
+		return patient;
+	}
+
+	@Override
+	public List<Patient> getDischargedPatientsByDoctorId(int doctorId) {
+		List<Patient> patients = new ArrayList<>();
+		connection = ConnectionPool.getConnection();
+		try (PreparedStatement pStatement = connection.prepareStatement(Query.SELECT_DISCHARGED_PATIENTS_BY_DOCTOR_ID)) {
+			pStatement.setInt(1, doctorId);
+			pStatement.execute();
+			
+			ResultSet rs = pStatement.getResultSet();
+			while (rs.next()) {
+				patients.add(new Patient(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+						rs.getDate("birthday"), rs.getInt("doctor_id")));
+			}
+
+		} catch (SQLException ex) {
+			LOG.error("Can not find a patients by doctor id", ex);
+		} finally {
+			closeConnection();
+		}
+		return patients;
+	}
+
+	@Override
+	public void compleateTheCourseOfTreatment(Patient patient) {
+		connection = ConnectionPool.getConnection();
+		try(PreparedStatement psPatient = connection.prepareStatement(Query.DELETE_PATIENT_BY_ID);
+				PreparedStatement psHospitalCard = connection.prepareStatement(Query.DELETE_HOSPITAL_CARD_BY_ID);
+				PreparedStatement psDoctorCount = connection.prepareStatement(Query.DECREMENT_COUNT_OF_PATIENTS);
+				PreparedStatement psDischargedPatient = connection.prepareStatement(Query.INSERT_DISCHARGED_PATIENT);
+				PreparedStatement psTreatments = connection.prepareStatement(Query.DELETE_TREATMENTS_BY_HOSPITAL_CARD_ID);) {
+			connection.setAutoCommit(false);
+			
+			LOG.trace("Patient data: id: " + patient.getId() +  ", firstName: " + patient.getFirstName() + ", lastName: " + patient.getLastName() + 
+					",date: " + patient.getBirthday() + ", cardId: " + patient.getCardId() + ", doctorID: " + patient.getDoctorId());
+			
+			psPatient.setInt(1, patient.getId());
+			psPatient.executeUpdate();
+			
+			psHospitalCard.setInt(1, patient.getCardId());
+			psHospitalCard.executeUpdate();
+			
+			psDoctorCount.setInt(1, patient.getDoctorId());
+			psDoctorCount.executeUpdate();
+			
+			psDischargedPatient.setString(1, patient.getFirstName());
+			psDischargedPatient.setString(2, patient.getLastName());
+			psDischargedPatient.setDate(3, patient.getBirthday());
+			psDischargedPatient.setInt(4, patient.getDoctorId());
+			psDischargedPatient.executeUpdate();
+			
+			psTreatments.setInt(1, patient.getCardId());
+			psTreatments.executeUpdate();
+			
+			connection.commit();
+		} catch (SQLException ex) {
+			LOG.error("Can not compleate the course of treatment", ex);
+		} finally {
+			closeConnection();
+		}
+		
 	}
 
 	/**

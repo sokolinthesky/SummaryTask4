@@ -28,8 +28,8 @@ public class FrontController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		process(request, response, ActionType.GET);
 	}
 
@@ -37,8 +37,8 @@ public class FrontController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		process(request, response, ActionType.POST);
 	}
 
@@ -54,8 +54,7 @@ public class FrontController extends HttpServlet {
 	 * @throws ServletException
 	 * @see ActionType
 	 */
-	private void process(HttpServletRequest request,
-			HttpServletResponse response, ActionType actionType)
+	private void process(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
 
 		LOG.debug("Start processing in Controller");
@@ -72,9 +71,11 @@ public class FrontController extends HttpServlet {
 		String path = command.execute(request, response, actionType);
 
 		if (path == null) {
-			LOG.trace("Redirect to address = " + path);
-			LOG.debug("Controller proccessing finished");
-			response.sendRedirect(Path.WELCOME_PAGE);
+			if (!commandName.equals("downloadFile")) {
+				LOG.trace("Redirect to address = " + path);
+				LOG.debug("Controller proccessing finished");
+				response.sendRedirect(Path.WELCOME_PAGE);
+			}
 		} else {
 			if (actionType == ActionType.GET) {
 				LOG.trace("Forward to address = " + path);
@@ -85,6 +86,7 @@ public class FrontController extends HttpServlet {
 				LOG.trace("Redirect to address = " + path);
 				LOG.debug("Controller proccessing finished");
 				response.sendRedirect(path);
+
 			}
 		}
 	}

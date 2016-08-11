@@ -22,8 +22,14 @@ public class CommandManager {
 		commands.put("login", new LoginCommand());
 		
 		
-		// client commands
-		commands.put("listPatients", new ListPatientsCommand());
+		// doctor commands
+		commands.put("listPatientsByDoctorId", new ListPatientsByDoctorCommand());
+		commands.put("hospitalCard", new HospitalCardCommand());
+		commands.put("addTreatment", new AddTreatmentCommand());
+		commands.put("compleateTreatment", new PerformTreatmentCommand());
+		commands.put("listDischargedPatients", new ListDischargedPatientsCommand());
+		commands.put("compleateCourseOfTreatment", new CompleateTheCourseOfTreatmentCommand());
+		commands.put("downloadFile", new DownloadFileCommand());
 		
 		// admin commands
 		commands.put("listDoctors", new ListDoctorsCommand());
@@ -31,6 +37,7 @@ public class CommandManager {
 		commands.put("addUser", new AddUserCommand());
 		commands.put("addPatient", new AddPatientCommand());
 		commands.put("appointDoctor", new AppointDoctorCommand());
+		commands.put("listPatients", new ListPatientsCommand());
 		
 		LOG.debug("Command container was successfully initialized");
 		LOG.trace("Total number of commands equals to " + commands.size());

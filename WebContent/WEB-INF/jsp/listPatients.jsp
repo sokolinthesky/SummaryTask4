@@ -6,14 +6,20 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<a href="controller?command=listDischargedPatients" >Discharged patients</a>
 	Patients:<br>
 	<c:forEach var="patient" items="${patients}">
-		* ${patient.firstName} <a href="controller?command=listDoctors&patientId=${patient.id}">set doctor</a>
+		* ${patient.firstName}
+		<c:if test="${userRole == 'ADMIN'}">
+			<a href="controller?command=listDoctors&patientId=${patient.id}">set doctor</a>
+		</c:if>
+		<c:if test="${userRole == 'DOCTOR'}">
+			<form action="controller" method="get">
+				<input type="hidden" name="command" value="hospitalCard">
+				<input type="hidden" name="hospitalCardId" value="${patient.cardId}">
+				<input type="submit" value="Hospital Card">
+			</form><br>
+		</c:if>
 		<br>
 	</c:forEach>
-	<c:if test="${userRole == 'DOCTOR'}">
-		Doctor content!<br>
-	</c:if>
-	nurse content!
-</body>
 </html>
