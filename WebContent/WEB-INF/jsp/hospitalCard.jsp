@@ -16,46 +16,63 @@ function showAddTreatment() {
 }
 </script>
 <body>
-patient id: ${patientId}<br>
-	<form action="controller" method="post">
-		<input type="hidden" name="command" value="hospitalCard">
-		diagnosis : ${hospitalCard.diagnosis} <input type="button" name="ok" value="Change" onclick="showField();">
-		<input type="text" name='diagnosis' id="field" value="${hospitalCard.diagnosis}" style="display:none;">
-		<input type="submit" id="submit" value="Edit" style="display:none;">
-	</form>
-	<br>
-	
-	<input type="button" name="ok" value="Add treatment" onclick="showAddTreatment();"><br>
-	<div id="addTreatment" style="display:none;">
-		<form action="controller" method="post">
-			<input type="hidden" name="command" value="addTreatment">
-			Select type of treatment:<br>
-			<select id="select" name="typeOfTreatmentId">
-				<c:forEach var="typeOfTreatment" items="${typesOfTreatment}">
-					<option value="${typeOfTreatment.id}">${typeOfTreatment}</option>
-				</c:forEach>
-			</select><br>
-			Name of medication:<br>
-			<input id="fieldAdd" type="text" name="nameOfMedication"><br>
-			<input id="submitAdd" type="submit" value="Add"><br>
-		</form>
-	</div>
-	
+	diagnosis : ${hospitalCard.diagnosis}
 	<c:if test="${userRole == 'DOCTOR'}">
+		<form action="controller" method="post">
+			<input type="hidden" name="command" value="hospitalCard">
+			<input type="button" name="ok" value="Change" onclick="showField();">
+			<input type="text" name='diagnosis' id="field" value="${hospitalCard.diagnosis}" style="display:none;">
+			<input type="submit" id="submit" value="Edit" style="display:none;">
+		</form>
+		<br>
+		
+		<input type="button" name="ok" value="Add treatment" onclick="showAddTreatment();"><br>
+		<div id="addTreatment" style="display:none;">
+			<form action="controller" method="post">
+				<input type="hidden" name="command" value="addTreatment">
+				Select type of treatment:<br>
+				<select id="select" name="typeOfTreatmentId">
+					<c:forEach var="typeOfTreatment" items="${typesOfTreatment}">
+						<option value="${typeOfTreatment.id}">${typeOfTreatment}</option>
+					</c:forEach>
+				</select><br>
+				Name of medication:<br>
+				<input id="fieldAdd" type="text" name="nameOfMedication"><br>
+				<input id="submitAdd" type="submit" value="Add"><br>
+			</form>
+		</div>
+		
 		<form action="controller" method="post">
 			<input type="hidden" name="command" value="compleateCourseOfTreatment">
 			<input type="submit" value="compleateCourseOfTreatment">
 		</form>
+		<br>
 	</c:if>
-	<br>
+	
 	Treatments:<br>
 	<c:forEach var="treatment" items="${treatments}">
-		* ${treatment.typeOfTreatmentId} / ${treatment.done} 
-		<form action="controller" method="post">
-			<input type="hidden" name="command" value="compleateTreatment">
-			<input type="hidden" name="id" value="${treatment.id}">
-			<input type="submit" value="to perform treatment">
-		</form>
+		<c:if test="${userRole == 'DOCTOR'}">
+			* ${treatment.typeOfTreatmentId} / ${treatment.done}
+			<c:if test="${treatment.done == false}">	 
+				<form action="controller" method="post">
+					<input type="hidden" name="command" value="compleateTreatment">
+					<input type="hidden" name="id" value="${treatment.id}">
+					<input type="submit" value="to perform treatment">
+				</form>
+			</c:if>
+		</c:if>
+		<c:if test="${userRole == 'NURSE' && treatment.typeOfTreatmentId ne 3}">
+			* ${treatment.typeOfTreatmentId} / ${treatment.done}
+		
+			<c:if test="${treatment.done == false}">	 
+				<form action="controller" method="post">
+					<input type="hidden" name="command" value="compleateTreatment">
+					<input type="hidden" name="id" value="${treatment.id}">
+					<input type="submit" value="to perform treatment">
+				</form>
+			</c:if>
+		</c:if>
+		
 		<br>
 	</c:forEach>
 </body>
