@@ -71,7 +71,7 @@ function showAddTreatment() {
 					<input type="submit" value="to perform treatment">
 				</form>
 			</c:if>
-		</c:if>
+		</c:if> 
 		
 		<br>
 	</c:forEach>
