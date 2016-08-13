@@ -23,8 +23,68 @@
 		<servlet-name>FrontController</servlet-name>
 		<url-pattern>/controller</url-pattern>
 	</servlet-mapping>
-	
+
 	<listener>
 		<listener-class>ua.nure.soklakov.SummaryTask4.web.listener.ContextListener</listener-class>
 	</listener>
+
+	<filter>
+		<filter-name>AccessFilter</filter-name>
+		<filter-class>ua.nure.soklakov.SummaryTask4.web.filters.AccessFilter</filter-class>
+		<init-param>
+			<param-name>admin</param-name>
+			<param-value>listDoctors listDoctorsBySpecialization addUser addPatient appointDoctor listPatients</param-value>
+		</init-param>
+		<init-param>
+			<param-name>doctor</param-name>
+			<param-value>listPatientsByDoctorId hospitalCard addTreatment compleateTreatment listDischargedPatients 
+			compleateCourseOfTreatment downloadFile</param-value>
+		</init-param>
+		<init-param>
+			<param-name>nurse</param-name>
+			<param-value>listPatients</param-value>
+		</init-param>
+		<init-param>
+			<param-name>common</param-name>
+			<param-value>logout noCommand</param-value>
+		</init-param>
+		<init-param>
+			<param-name>out-of-control</param-name>
+			<param-value>login</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessFilter</filter-name>
+		<servlet-name>FrontController</servlet-name>
+	</filter-mapping>
+	
+	<!--============================================================
+	Encoding support filter
+	=============================================================-->
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>ua.nure.soklakov.SummaryTask4.web.filters.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/WEB-INF/jsp/*</url-pattern>
+		<servlet-name>FrontController</servlet-name>
+	</filter-mapping>
+	
+	<!--============================================================
+	Error page
+	=============================================================-->
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/jsp/errorPage.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/errorPage.jsp</location>
+	</error-page>
 </web-app>

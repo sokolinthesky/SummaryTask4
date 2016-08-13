@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 /**
  * Class that manages all commands.
  *
- * @author Mark Norkin
+ * @author Soklakov Oleg
  *
  */
 public class CommandManager {
@@ -20,7 +20,7 @@ public class CommandManager {
 	static {
 		// common commands
 		commands.put("login", new LoginCommand());
-		
+		commands.put("logout", new LogoutCommand());
 		
 		// doctor commands
 		commands.put("listPatientsByDoctorId", new ListPatientsByDoctorCommand());

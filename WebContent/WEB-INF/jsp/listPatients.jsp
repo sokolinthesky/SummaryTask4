@@ -6,6 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<a href="controller?command=logout" >Logout</a><br>
 	<c:if test="${userRole == 'DOCTOR'}">
 		<a href="controller?command=listDischargedPatients" >Discharged patients</a><br>
 	</c:if>
