@@ -21,19 +21,19 @@ INSERT INTO discharged_patients (id, first_name, last_name, birthday, doctor_id,
 
 CREATE TABLE IF NOT EXISTS hospital_card (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    patient_id INT(11) NOT NULL
-);
+    diagnosis varchar(150)
+) DEFAULT CHARSET=utf8;
 
-insert into hospital_card (id, patient_id) values
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
-(9, 9);
+insert into hospital_card (id, diagnosis) values
+(1, 'Желтуха'),
+(2, 'Аллергия'),
+(3, 'Гайморит'),
+(4, 'Отравление'),
+(5, 'Перелом носа'),
+(6, 'Рана от гвоздя на руке'),
+(7, 'Вывих кисти'),
+(8, 'Варикоз'),
+(9, 'Скалеоз');
 
 
 CREATE TABLE treatment (
@@ -72,19 +72,19 @@ CREATE TABLE patients (
     last_name VARCHAR(30) NOT NULL,
     birthday DATE DEFAULT NULL,
     doctor_id INT(11) DEFAULT NULL,
-    diagnosis VARCHAR(50) DEFAULT NULL
+    card_id INT(11) DEFAULT NULL
 );
 
-INSERT INTO patients (id, first_name, last_name, birthday, doctor_id, diagnosis) VALUES
-(1, 'Олексій', 'Майор', '2015-07-08', 2, 'Желтуха'),
-(2, 'Марья', 'Шахматова', '2015-08-13', 2, 'Аллергия'),
-(3, 'Дмитро', 'Матвейчук', '2015-07-30', 2, 'Гайморит'),
-(4, 'Василий', 'Фидлер', '2015-08-04', 2, 'Отравление'),
-(5, 'Александр', 'Петров', '2000-08-17', 8, 'Перелом носа'),
-(6, 'Владимир', 'Фесенко', '2001-08-24', 8, 'Рана от гвоздя на руке'),
-(7, 'Исаак', 'Варшавчик', '2000-08-04', 8, 'Вывих кисти'),
-(8, 'Иван', 'Василенко', '1999-08-05', 3, 'Варикоз'),
-(9, 'Мария', 'Абаза', '1998-08-20', 3, 'Скалеоз');
+INSERT INTO patients (id, first_name, last_name, birthday, doctor_id, card_id) VALUES
+(1, 'Олексій', 'Майор', '2015-07-08', 2, 1),
+(2, 'Марья', 'Шахматова', '2015-08-13', 2, 2),
+(3, 'Дмитро', 'Матвейчук', '2015-07-30', 2, 3),
+(4, 'Василий', 'Фидлер', '2015-08-04', 2, 4),
+(5, 'Александр', 'Петров', '2000-08-17', 8, 5),
+(6, 'Владимир', 'Фесенко', '2001-08-24', 8, 6),
+(7, 'Исаак', 'Варшавчик', '2000-08-04', 8, 7),
+(8, 'Иван', 'Василенко', '1999-08-05', 3, 8),
+(9, 'Мария', 'Абаза', '1998-08-20', 3, 9);
 
 
 

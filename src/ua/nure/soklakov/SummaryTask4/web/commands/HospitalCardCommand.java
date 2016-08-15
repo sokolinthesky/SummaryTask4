@@ -1,7 +1,7 @@
 package ua.nure.soklakov.SummaryTask4.web.commands;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -66,14 +66,15 @@ public class HospitalCardCommand extends Command {
 		
 		request.setAttribute("hospitalCard", hospitalCard);
 		request.setAttribute("treatments", treatments);
-		request.getSession().setAttribute("typesOfTreatment", typeOfTreatments);
+		request.getSession().setAttribute("typesOfTreatments", typeOfTreatments);
 		
 		return Path.FORWARD_HOSPITAL_CARD;
 	}
 
-	private String doPost(HttpServletRequest request, HttpServletResponse response) {
+	private String doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 
 		String diagnosis = request.getParameter("diagnosis");
+		/*String diagnosis = new String(request.getParameter("diagnosis").getBytes("ISO-8859-1"),"UTF-8");*/
 		LOG.trace("Diagnosis: " + diagnosis);
 
 		int hospitalCardId = (int) request.getSession().getAttribute("hospitalCardId");

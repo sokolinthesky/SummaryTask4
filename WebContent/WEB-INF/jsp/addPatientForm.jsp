@@ -1,19 +1,39 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-	add patient:<br>
-	<form action="controller" method="post">
-		<input type="hidden" name="command" value="addPatient">
-		<input type="text" name="firstName"><br>
-		<input type="text" name="lastName"><br>
-		<input type="date" name="date"><br>
-		<input type="submit" value="Submit">
-	</form>
+<!-- Head -->
+<%@ include file="/WEB-INF/jspf/head.jspf"%>
+<body class="security-app">
+
+	<!-- Header -->
+	<%@ include file="/WEB-INF/jspf/header.jspf"%>
+
+	<div class="lc-block">
+	
+		<%@ include file="/WEB-INF/jspf/adminMenu.jspf"%>
+		
+		
+		<form action="controller" method="post">
+			<input type="hidden" name="command" value="addPatient">
+			
+			<div class="wrapper">
+				<div class="material-textfield blue">
+					<input type="text" name="firstName"  style="text-align:center" required /> <label data-content="first name">first name</label>
+				</div>
+				
+				<div class="material-textfield blue">
+					<input type="text" name="lastName"  style="text-align:center" required /> <label data-content="last name">last name</label>
+				</div>
+			</div>
+			
+			Birthday:<br>
+			<input type="date" name="date">
+			<br>
+			<br>
+			
+			<input type="submit" value="Add patient" class="button red middle">
+		</form>
+		
+	</div>
 </body>
 </html>

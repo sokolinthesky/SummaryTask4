@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
@@ -39,11 +40,14 @@ public class DownloadFileCommand extends Command {
 	private String doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		LOG.debug("DownloadFileCommand starts");
 
-		String patientName = new String(request.getParameter("firstName").getBytes("ISO-8859-1"), "UTF-8");
-		String patientLastName = new String(request.getParameter("lastName").getBytes("ISO-8859-1"), "UTF-8");
+		/*String patientName = new String(request.getParameter("firstName").getBytes("ISO-8859-1"), "UTF-8");
+		String patientLastName = new String(request.getParameter("lastName").getBytes("ISO-8859-1"), "UTF-8");*/
+		String patientName = request.getParameter("firstName");
+		String patientLastName = request.getParameter("lastName");
+		LOG.trace("First name: " + patientName + ", Last name: " + patientLastName);
 		// to obtain the bytes for unsafe characters
 		String fileName = URLEncoder.encode(patientName + patientLastName + ".txt", "UTF-8");
-		// fileName = URLDecoder.decode(fileName, "ISO8859_1");
+		//fileName = URLDecoder.decode(fileName, "ISO8859_1");
 		String filePath = "C:/workspace_eclipse/SummaryTask4/WebContent/WEB-INF/DischangedPatients/" + patientName
 				+ patientLastName + ".txt";
 

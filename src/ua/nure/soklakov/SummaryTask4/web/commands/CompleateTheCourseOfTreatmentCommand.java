@@ -64,7 +64,7 @@ public class CompleateTheCourseOfTreatmentCommand extends Command {
 
 		User doctor = userManager.getUserById(patient.getDoctorId());
 
-		// TODO: add write data to file
+		// write data to file
 		try {
 			PrintWriter writer = new PrintWriter(
 					"C:/workspace_eclipse/SummaryTask4/WebContent/WEB-INF/DischangedPatients/" + patient.getFirstName()

@@ -59,7 +59,6 @@ public class AddPatientCommand extends Command {
 	 *         otherwise redisplays add Faculty page.
 	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) {
-		String result = null;
 		
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");

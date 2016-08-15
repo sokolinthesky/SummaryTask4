@@ -1,0 +1,10 @@
+FirstName: Дмитро
+LastName: Матвейчук
+Diagmosis: diagnosos
+Doctor: Petr Petrov
+Treatments:
+ TypeOfTreatment: MEDICINE | Name: Метионин | isDone: true
+ TypeOfTreatment: MEDICINE | Name: fffff | isDone: true
+ TypeOfTreatment: PROCEDURE | Name: eeee | isDone: true
+ TypeOfTreatment: PROCEDURE | Name: fdgfhfghdfh | isDone: true
+ TypeOfTreatment: OPERATION | Name: dfhdfh | isDone: true

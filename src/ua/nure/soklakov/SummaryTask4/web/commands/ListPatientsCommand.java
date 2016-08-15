@@ -1,7 +1,6 @@
 package ua.nure.soklakov.SummaryTask4.web.commands;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;

@@ -1,0 +1,9 @@
+FirstName: Александр
+LastName: Петров
+Diagmosis: Перелом носа
+Doctor: Petr Petrov
+Treatments:
+ TypeOfTreatment: MEDICINE | Name: Диазалин | isDone: false
+ TypeOfTreatment: MEDICINE | Name: Рибоксин | isDone: false
+ TypeOfTreatment: MEDICINE | Name: Сирепар | isDone: false
+ TypeOfTreatment: OPERATION | Name: dfsafsfasdfdasfasdfasdf | isDone: false

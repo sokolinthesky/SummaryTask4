@@ -16,6 +16,7 @@ import ua.nure.soklakov.SummaryTask4.core.user.User;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManager;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
+import ua.nure.soklakov.SummaryTask4.web.utils.MailUtils;
 
 public class AddUserCommand extends Command {
 
@@ -76,17 +77,21 @@ public class AddUserCommand extends Command {
 		String password = request.getParameter("password");
 		String firstName = request.getParameter("firsName");
 		String lastName = request.getParameter("lastName");
+		String email = null;
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
 		int specializationId = 0;
 		int countOfPatients = 0;
 		if (request.getParameter("specializationId") != null) {
 			specializationId = Integer.parseInt(request.getParameter("specializationId"));
 		}
+		if (request.getParameter("email") != null) {
+			email = request.getParameter("email");
+		}
 		
 		//TODO validations fields
 
 		LOG.trace("The fields got: " + login + " " + password + " " + firstName + " " + lastName + " " + roleId + " "
-				+ specializationId);
+				+ specializationId + ", email: " + email);
 		
 		User user = new User(login, password, firstName, lastName, roleId, specializationId, countOfPatients);
 		LOG.trace("User was created: " + user);
@@ -94,6 +99,11 @@ public class AddUserCommand extends Command {
 		UserManager manager = new UserManagerImpl();
 		manager.addUser(user);
 		LOG.trace("User was added to database");
+		
+		// Sent email
+		if(email != null) {
+			MailUtils.sendConfirmationEmail(user, email);
+		}
 
 		return Path.REDIRECT_TO_VIEW_ALL_DOCTORS;
 	}

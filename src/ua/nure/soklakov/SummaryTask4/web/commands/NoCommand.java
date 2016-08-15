@@ -14,7 +14,7 @@ import ua.nure.soklakov.SummaryTask4.web.ActionType;
 /**
  * Invoked when no command was found for client request.
  *
- * @author Mark Norkin
+ * @author Soklakov Oleg
  *
  */
 public class NoCommand extends Command {
