@@ -17,6 +17,7 @@ import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
 import ua.nure.soklakov.SummaryTask4.core.patient.Treatment;
 import ua.nure.soklakov.SummaryTask4.core.patient.TypeOfTreatment;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
+import ua.nure.soklakov.SummaryTask4.web.utils.validation.HospitalCardInputValidator;
 
 public class HospitalCardCommand extends Command {
 
@@ -45,44 +46,52 @@ public class HospitalCardCommand extends Command {
 	}
 
 	private String doGet(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		int hospitalCardId;
-		if(request.getParameter("hospitalCardId") == null) {
+		if (request.getParameter("hospitalCardId") == null) {
 			hospitalCardId = (int) request.getSession().getAttribute("hospitalCardId");
 		} else {
 			hospitalCardId = Integer.parseInt(request.getParameter("hospitalCardId"));
 			request.getSession().setAttribute("hospitalCardId", hospitalCardId);
 		}
 		LOG.trace("Hospital card id: " + hospitalCardId);
-		
+
 		HospitalCard hospitalCard = manager.getHospitalCardById(hospitalCardId);
 		LOG.trace("Hospital card entity: " + hospitalCard);
-		
+
 		List<Treatment> treatments = manager.getTreatmentsByCardId(hospitalCardId);
 		LOG.trace("Treatments: " + treatments);
-		
+
 		List<TypeOfTreatment> typeOfTreatments = manager.getTypesOfTreatment();
 		LOG.trace("Type Of Treatments: " + typeOfTreatments);
-		
+
 		request.setAttribute("hospitalCard", hospitalCard);
 		request.setAttribute("treatments", treatments);
 		request.getSession().setAttribute("typesOfTreatments", typeOfTreatments);
-		
+
+		if (request.getParameter("error") != null) {
+			request.setAttribute("errorMessage", "Incorrect input, try again");
+		}
+
 		return Path.FORWARD_HOSPITAL_CARD;
 	}
 
-	private String doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+	private String doPost(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
 
 		String diagnosis = request.getParameter("diagnosis");
-		/*String diagnosis = new String(request.getParameter("diagnosis").getBytes("ISO-8859-1"),"UTF-8");*/
+
+		boolean valid = HospitalCardInputValidator.validateDiagnosis(diagnosis);
+		if (!valid) {
+			return Path.REDIRECT_TO_VIEW_HOSPITAL_CARD + "&error=notValidDiagnosis";
+		}
+
 		LOG.trace("Diagnosis: " + diagnosis);
 
 		int hospitalCardId = (int) request.getSession().getAttribute("hospitalCardId");
 		LOG.trace("Hospital card id: " + hospitalCardId);
 
 		manager.updateDiagnosisInHospitalCard(hospitalCardId, diagnosis);
-
-		//request.getSession().setAttribute("hospitalCardId", hospitalCardId);
 
 		return Path.REDIRECT_TO_VIEW_HOSPITAL_CARD;
 	}

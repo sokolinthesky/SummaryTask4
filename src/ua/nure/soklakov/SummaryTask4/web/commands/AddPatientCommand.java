@@ -16,6 +16,7 @@ import ua.nure.soklakov.SummaryTask4.core.patient.Patient;
 import ua.nure.soklakov.SummaryTask4.core.patient.PatientManager;
 import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
+import ua.nure.soklakov.SummaryTask4.web.utils.validation.PatientInputValidator;
 
 public class AddPatientCommand extends Command {
 
@@ -48,10 +49,15 @@ public class AddPatientCommand extends Command {
 	 */
 	private String doGet(HttpServletRequest request, HttpServletResponse response) {
 		LOG.trace("Request for only showing addPatientForm.jsp");
-		
+
+		// error message if exist
+		if (request.getParameter("error") != null) {
+			request.setAttribute("errorMessage", "Inncorect input or date, try again");
+		}
+
 		return Path.FORWARD_PATIENT_ADD;
 	}
-	
+
 	/**
 	 * Redirects user after submitting add user form.
 	 *
@@ -59,29 +65,33 @@ public class AddPatientCommand extends Command {
 	 *         otherwise redisplays add Faculty page.
 	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		Date selectedDate = null;
-		
-		try {
-			java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
-			selectedDate = new Date(date.getTime());
-		} catch (ParseException e) {
-			e.printStackTrace();
+
+		boolean valid = PatientInputValidator.validatePatientParametrs(firstName, lastName, selectedDate);
+
+		if (valid) {
+			try {
+				java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
+				selectedDate = new Date(date.getTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			LOG.trace("Fields were got: " + firstName + "," + lastName + ", " + selectedDate);
+
+			Patient patient = new Patient(firstName, lastName, selectedDate);
+
+			PatientManager manager = new PatientManagerImpl();
+			int hospitalCardId = manager.addHospitalCard();
+			patient.setCardId(hospitalCardId);
+			manager.addPatient(patient);
+			LOG.trace("The Patioen was added to database");
+		} else {
+			return Path.REDIRECT_TO_VIEW_ADD_PATIENT_FORM + "&error=notValid";
 		}
-		LOG.trace("Fields were got: " + firstName + "," + lastName +", " + selectedDate);
-		
-		//TODO add validation check
-		
-		Patient patient = new Patient(firstName, lastName, selectedDate);
-		
-		PatientManager manager = new PatientManagerImpl();
-		int hospitalCardId = manager.addHospitalCard();
-		patient.setCardId(hospitalCardId);
-		manager.addPatient(patient);
-		LOG.trace("The Patioen was added to database");
-		
+
 		return Path.REDIRECT_TO_VIEW_ALL_PATIENTS;
 	}
 

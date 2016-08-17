@@ -23,7 +23,9 @@
 		<br>
 		<br>
 		
+		${errorMessage}
 		<h3>Diagnosis : ${hospitalCard.diagnosis} </h3>
+	
 		<c:if test="${userRole == 'DOCTOR'}">
 			<input type="button" name="ok" value="Change" onclick="showField();" class="button red small">
 		

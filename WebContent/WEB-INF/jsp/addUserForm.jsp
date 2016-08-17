@@ -11,6 +11,8 @@
 	
 		<%@ include file="/WEB-INF/jspf/adminMenu.jspf"%>
 	
+		${requestScope.errorMessage}
+		
 		<form action="controller" method="post">
 			<input type="hidden" name="command" value="addUser">
 			

@@ -13,6 +13,7 @@ import ua.nure.soklakov.SummaryTask4.core.patient.PatientManager;
 import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
 import ua.nure.soklakov.SummaryTask4.core.patient.Treatment;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
+import ua.nure.soklakov.SummaryTask4.web.utils.validation.HospitalCardInputValidator;
 
 public class AddTreatmentCommand extends Command {
 
@@ -42,6 +43,11 @@ public class AddTreatmentCommand extends Command {
 		int typeOfTreatmentId = Integer.parseInt(request.getParameter("typeOfTreatmentId"));
 		int hospitalCardId = (int) request.getSession().getAttribute("hospitalCardId");
  		String nameOfaMedication = request.getParameter("nameOfMedication");
+ 		
+ 		boolean valid = HospitalCardInputValidator.validateTreatmentParametrs(nameOfaMedication);
+ 		if (!valid) {
+ 			return Path.REDIRECT_TO_VIEW_HOSPITAL_CARD + "&error=notValidTreatment";
+ 		}
  		
  		Treatment treatment = new Treatment(typeOfTreatmentId, hospitalCardId, nameOfaMedication);
 		

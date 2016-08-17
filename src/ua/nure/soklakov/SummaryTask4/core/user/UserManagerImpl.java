@@ -2,6 +2,7 @@ package ua.nure.soklakov.SummaryTask4.core.user;
 
 import java.util.List;
 
+import ua.nure.soklakov.SummaryTask4.LoginDublicateException;
 import ua.nure.soklakov.SummaryTask4.dao.impl.UserDaoImpl;
 
 /**
@@ -23,9 +24,9 @@ public class UserManagerImpl implements UserManager {
 	public List<User> getDoctorsBySpecialization(int specializationId) {
 		return userDao.getDoctorsBySpecialization(specializationId);
 	}
-
+ 
 	@Override
-	public void addUser(User user) {
+	public void addUser(User user) throws LoginDublicateException{
 		userDao.addUser(user);
 	}
 

@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
+import ua.nure.soklakov.SummaryTask4.LoginDublicateException;
 import ua.nure.soklakov.SummaryTask4.core.user.Role;
 import ua.nure.soklakov.SummaryTask4.core.user.Specialization;
 import ua.nure.soklakov.SummaryTask4.core.user.User;
@@ -76,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void addUser(User user) {
+	public void addUser(User user) throws LoginDublicateException {
 		connection = ConnectionPool.getConnection();
 		try (PreparedStatement pStatement = connection.prepareStatement(Query.INSERT_USER)) {
 			pStatement.setString(1, user.getLogin());
@@ -86,10 +90,16 @@ public class UserDaoImpl implements UserDao {
 			pStatement.setInt(5, user.getRoleId());
 			pStatement.setInt(6, user.getSpecializationId());
 			pStatement.setInt(7, user.getCountOfPatients());
-
-			System.out.println("!!!!!!!!!!!" + pStatement.executeUpdate());
+			pStatement.executeUpdate();
+			
+		/*} catch (MySQLIntegrityConstraintViolationException ex) {
+			LOG.error("Can not create a new user!", ex);
+			throw new LoginDublicateException();*/
 		} catch (SQLException ex) {
 			LOG.error("Can not create a new user", ex);
+			if (ex instanceof SQLIntegrityConstraintViolationException) {
+				throw new LoginDublicateException();
+		    }
 		} finally {
 			closeConnection();
 		}

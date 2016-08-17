@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.soklakov.SummaryTask4.LoginDublicateException;
 import ua.nure.soklakov.SummaryTask4.Path;
 import ua.nure.soklakov.SummaryTask4.core.user.Role;
 import ua.nure.soklakov.SummaryTask4.core.user.Specialization;
@@ -17,6 +18,7 @@ import ua.nure.soklakov.SummaryTask4.core.user.UserManager;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 import ua.nure.soklakov.SummaryTask4.web.utils.MailUtils;
+import ua.nure.soklakov.SummaryTask4.web.utils.validation.UserInputValidator;
 
 public class AddUserCommand extends Command {
 
@@ -62,6 +64,20 @@ public class AddUserCommand extends Command {
 		request.setAttribute("specializations", specializations);
 		LOG.trace("All roles and specializations added like attributes");
 
+		// error message if exist
+		if (request.getParameter("error") != null) {
+			String error = request.getParameter("error");
+			if (error.equals("dublicateLogin")) {
+				request.setAttribute("errorMessage", "This login is already in use");
+			}
+			if (error.equals("notValid")) {
+				request.setAttribute("errorMessage", "Incorrect input, try again");
+			}
+			if (error.equals("wrongEmail")) {
+				request.setAttribute("errorMessage", "Incorrect email, try again");
+			}
+		}
+
 		return Path.FORWARD_USER_ADD;
 	}
 
@@ -70,9 +86,13 @@ public class AddUserCommand extends Command {
 	 *
 	 * @return path to the view of added user if fields properly filled,
 	 *         otherwise redisplays add Faculty page.
+	 * @throws IOException
+	 * @throws ServletException
 	 */
-	private String doPost(HttpServletRequest request, HttpServletResponse response) {
+	private String doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
+		// get fields
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
 		String firstName = request.getParameter("firsName");
@@ -87,22 +107,38 @@ public class AddUserCommand extends Command {
 		if (request.getParameter("email") != null) {
 			email = request.getParameter("email");
 		}
-		
-		//TODO validations fields
 
-		LOG.trace("The fields got: " + login + " " + password + " " + firstName + " " + lastName + " " + roleId + " "
-				+ specializationId + ", email: " + email);
-		
-		User user = new User(login, password, firstName, lastName, roleId, specializationId, countOfPatients);
-		LOG.trace("User was created: " + user);
-		
-		UserManager manager = new UserManagerImpl();
-		manager.addUser(user);
-		LOG.trace("User was added to database");
-		
-		// Sent email
-		if(email != null) {
-			MailUtils.sendConfirmationEmail(user, email);
+		// validation
+		boolean valid = UserInputValidator.validateUserParametrs(login, password, firstName, lastName);
+		LOG.trace("Validation: " + valid);
+
+		if (valid) {
+			LOG.trace("The fields got: " + login + " " + password + " " + firstName + " " + lastName + " " + roleId
+					+ " " + specializationId + ", email: " + email);
+
+			User user = new User(login, password, firstName, lastName, roleId, specializationId, countOfPatients);
+			LOG.trace("User was created: " + user);
+
+			// add user to database
+			try {
+				UserManager manager = new UserManagerImpl();
+				manager.addUser(user);
+			} catch (LoginDublicateException e) {
+				return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=dublicateLogin";
+			}
+			LOG.trace("User was added to database");
+
+			// Send email
+			if (email != null) {
+				if (UserInputValidator.validateEmail(email)) {
+					MailUtils.sendConfirmationEmail(user, email);
+				} else {
+					return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=wrongEmail";
+				}
+			}
+			
+		} else {
+			return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=notValid";
 		}
 
 		return Path.REDIRECT_TO_VIEW_ALL_DOCTORS;
