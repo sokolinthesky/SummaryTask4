@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+<!-- Custom tag  -->
+<%@ taglib uri="/WEB-INF/patientCustomTag.tld" prefix="patient"%>
 <html>
 <!-- Head -->
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
@@ -28,9 +30,8 @@
 			<tbody>
 			<c:forEach var="patient" items="${patients}">
 				<tr>
-					<td>${patient.firstName}</td>
-					<td>${patient.lastName}</td>
-					<td>${patient.birthday}</td>
+					<!-- Custom Tag -->
+					<patient:patientTable patient="${patient}"/>
 					<td>
 						<form action="controller" method="post">
 							<input type="hidden" name="command" value="downloadFile">

@@ -2,8 +2,6 @@
 JSTL core tag library.
 ===========================================================================--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!-- Custom tag  -->
-<%-- <%@ taglib uri="/WEB-INF/customtag.tld" prefix="marks"%> --%>
 <%--===========================================================================
 JSTL i18n tag library.
 ===========================================================================--%>
@@ -16,5 +14,3 @@ JSTL i18n tag library.
 	scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="resources" />
-<!-- TODO: add this to param for lang selector  -->
-<%-- ${requestScope['javax.servlet.forward.query_string']}<br> --%>
