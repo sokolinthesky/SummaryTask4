@@ -69,8 +69,16 @@ public class HospitalCardCommand extends Command {
 		request.setAttribute("treatments", treatments);
 		request.getSession().setAttribute("typesOfTreatments", typeOfTreatments);
 
+		// set error message if exist
 		if (request.getParameter("error") != null) {
-			request.setAttribute("errorMessage", "Incorrect input, try again");
+			String lang = (String) request.getSession().getAttribute("lang");
+			String errorMessage = "";
+			if (lang == null || lang.equals("en"))  {
+				errorMessage = "Inncorect input, try again";
+			} else if (lang.equals("uk")) {
+				errorMessage = "Не вірний ввод";
+			}
+			request.setAttribute("errorMessage", errorMessage);
 		}
 
 		return Path.FORWARD_HOSPITAL_CARD;

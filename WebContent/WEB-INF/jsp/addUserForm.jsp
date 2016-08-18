@@ -18,30 +18,35 @@
 			
 			<div class="wrapper">
 				<div class="material-textfield blue">
-					<input type="text" name="login"  style="text-align:center" required /> <label data-content="login">login</label>
+					<fmt:message key="user_form.input.login" var="login"/>
+					<input type="text" name="login"  style="text-align:center" required /> <label data-content="${login}">login</label>
 				</div>
 	
 				<div class="material-textfield red">
-					<input type="password" name="password"  style="text-align:center" required /> <label data-content="password">password</label>
+					<fmt:message key="user_form.input.password" var="password"/>
+					<input type="password" name="password"  style="text-align:center" required /> <label data-content="${password}">password</label>
 				</div>
 				
 				<div class="material-textfield blue">
-					<input type="text" name="firsName"  style="text-align:center" required /> <label data-content="first name">first name</label>
+					<fmt:message key="user_form.input.first_name" var="firstName"/>
+					<input type="text" name="firsName"  style="text-align:center" required /> <label data-content="${firstName}">first name</label>
 				</div>
 				
 				<div class="material-textfield blue">
-					<input type="text" name="lastName"  style="text-align:center" required /> <label data-content="last name">last name</label>
+					<fmt:message key="user_form.input.last_name" var="lastName"/>
+					<input type="text" name="lastName"  style="text-align:center" required /> <label data-content="${lastName}">last name</label>
 				</div>
 				
 				
-				Email:<input type="checkbox" checked="checked" onclick="this.nextSibling.style.display=this.checked?'':'none';"><div class="material-textfield blue">
-					<input type="text" name="email" value="" style="text-align:center" /> <label data-content="email">email</label>
+				<fmt:message key="user_form.input.email"/>:<input type="checkbox" checked="checked" onclick="this.nextSibling.style.display=this.checked?'':'none';"><div class="material-textfield blue">
+					<fmt:message key="user_form.input.email" var="email"/>
+					<input type="text" name="email" value="" style="text-align:center" /> <label data-content="${email}">email</label>
 				</div><br>
 				
 			</div>
 	
 			
-			ROLE:<br>
+			<fmt:message key="user_form.input.role"/>:<br>
 			<select id="mySelect" onchange="JoinedOrNot()" name="roleId">
 				<c:forEach var="role" items="${roles}">
 					<c:if test="${role ne 'ADMIN'}">
@@ -52,7 +57,7 @@
 			<br>
 			<br>
 	
-			SPECIALIZATION:<br>
+			<fmt:message key="user_form.input.specialization"/>:<br>
 			<select id="mySelect1" name="specializationId">
 				<c:forEach var="specialization" items="${specializations}">
 					<option value="${specialization.id}">${specialization}</option>
@@ -61,7 +66,8 @@
 			<br>
 			<br>
 			
-			<input type="submit" value="ADD USER" class="button red middle">
+			<fmt:message key="user_form.submit" var="submit"/>
+			<input type="submit" value="${submit}" class="button red middle">
 		</form>
 	
 	</div>

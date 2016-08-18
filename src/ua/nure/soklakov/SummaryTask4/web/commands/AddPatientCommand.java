@@ -52,7 +52,14 @@ public class AddPatientCommand extends Command {
 
 		// error message if exist
 		if (request.getParameter("error") != null) {
-			request.setAttribute("errorMessage", "Inncorect input or date, try again");
+			String lang = (String) request.getSession().getAttribute("lang");
+			String errorMessage = "";
+			if (lang == null || lang.equals("en"))  {
+				errorMessage = "Inncorect input or date, try again";
+			} else if (lang.equals("uk")) {
+				errorMessage = "Не вірний ввод, або дата";
+			}
+			request.setAttribute("errorMessage", errorMessage);
 		}
 
 		return Path.FORWARD_PATIENT_ADD;
@@ -69,16 +76,18 @@ public class AddPatientCommand extends Command {
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		Date selectedDate = null;
+		
+		try {
+			java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
+			selectedDate = new Date(date.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		boolean valid = PatientInputValidator.validatePatientParametrs(firstName, lastName, selectedDate);
 
 		if (valid) {
-			try {
-				java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
-				selectedDate = new Date(date.getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+	
 			LOG.trace("Fields were got: " + firstName + "," + lastName + ", " + selectedDate);
 
 			Patient patient = new Patient(firstName, lastName, selectedDate);

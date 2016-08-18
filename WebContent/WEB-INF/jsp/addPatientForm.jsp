@@ -18,20 +18,23 @@
 			
 			<div class="wrapper">
 				<div class="material-textfield blue">
-					<input type="text" name="firstName"  style="text-align:center" required /> <label data-content="first name">first name</label>
+					<fmt:message key="patiet_form.input.first_name" var="firstName" />
+					<input type="text" name="firstName"  style="text-align:center" required /> <label data-content="${firstName}">first name</label>
 				</div>
 				
 				<div class="material-textfield blue">
-					<input type="text" name="lastName"  style="text-align:center" required /> <label data-content="last name">last name</label>
+					<fmt:message key="patiet_form.input.last_name" var="lastName" />
+					<input type="text" name="lastName"  style="text-align:center" required /> <label data-content="${lastName}">last name</label>
 				</div>
 			</div>
 			
-			Birthday:<br>
+			<fmt:message key="patiet_form.input.birthday" />:<br>
 			<input type="date" name="date">
 			<br>
 			<br>
 			
-			<input type="submit" value="Add patient" class="button red middle">
+			<fmt:message key="patiet_form.submit" var="submit" />
+			<input type="submit" value="${submit}" class="button red middle">
 		</form>
 		
 	</div>

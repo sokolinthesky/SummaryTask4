@@ -19,5 +19,6 @@ public class Path {
 	public static final String REDIRECT_TO_VIEW_PATIENTS_BY_DOCTOR_ID = "controller?command=listPatientsByDoctorId";
 	public static final String REDIRECT_TO_VIEW_ADD_USER_FORM = "controller?command=addUser";
 	public static final String REDIRECT_TO_VIEW_ADD_PATIENT_FORM = "controller?command=addPatient";
+	public static final String REDIRECT_TO_LOGIN_FORM = "controller?command=login";
 
 }

@@ -11,17 +11,18 @@
 
 	<div class="lc-block">
 		
+		<!-- Menu -->
 		<%@ include file="/WEB-INF/jspf/adminMenu.jspf"%>
 		
 		<!-- Doctors table -->
 		<table id="doctors" class="tablesorter" align="center">
 		<thead>
 			<tr>
-				<th>Login</th>
-				<th>First name</th>
-				<th>Last name</th>
-				<th>Specialization</th>
-				<th>Count of patients</th>
+				<th><fmt:message key="doctors.table.login"/></th>
+				<th><fmt:message key="doctors.table.first_name"/></th>
+				<th><fmt:message key="doctors.table.last_name"/></th>
+				<th><fmt:message key="doctors.table.specialization"/></th>
+				<th><fmt:message key="doctors.table.count_of_patients"/></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,7 +45,8 @@
 								<input type="hidden" name="command" value="appointDoctor">
 								<input type="hidden" name="doctorId" value="${doctor.id}">
 								<input type="hidden" name="patientId" value="${param.patientId}">
-								<input type="submit" value="slect" class="button red small">
+								<fmt:message key="doctors.submit.select" var="select"/>
+								<input type="submit" value="${select}" class="button red small">
 							</form>
 						</c:if>
 					</td>

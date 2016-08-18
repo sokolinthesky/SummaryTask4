@@ -52,7 +52,7 @@ public class LoginCommand extends Command {
 	 * @return path to the view of all faculties.
 	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) {
-		String forward = Path.ERROR_PAGE;
+		String forward = null;
 
 		HttpSession session = request.getSession();
 
@@ -65,7 +65,14 @@ public class LoginCommand extends Command {
 
 		LOG.trace("User found: " + user);
 		if (user == null || !password.equals(user.getPassword())) {
-			request.setAttribute("errorMessage", "Cannot find user with such login/password");
+			String lang = (String) request.getSession().getAttribute("lang");
+			String errorMessage = "";
+			if (lang == null || lang.equals("en")) {
+				errorMessage = "Cannot find user with such login/password";
+			} else if (lang.equals("uk")) {
+				errorMessage = "Не знайдено користувача з таким логіном/паролем";
+			}
+			request.getSession().setAttribute("error", errorMessage);
 			LOG.error("errorMessage: Cannot find user with such login/password");
 		} else {
 			Role userRole = Role.getRole(user);

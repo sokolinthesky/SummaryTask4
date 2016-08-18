@@ -67,14 +67,27 @@ public class AddUserCommand extends Command {
 		// error message if exist
 		if (request.getParameter("error") != null) {
 			String error = request.getParameter("error");
-			if (error.equals("dublicateLogin")) {
-				request.setAttribute("errorMessage", "This login is already in use");
-			}
-			if (error.equals("notValid")) {
-				request.setAttribute("errorMessage", "Incorrect input, try again");
-			}
-			if (error.equals("wrongEmail")) {
-				request.setAttribute("errorMessage", "Incorrect email, try again");
+			String lang = (String) request.getSession().getAttribute("lang");
+			if (lang == null || lang.equals("en")) {
+				if (error.equals("dublicateLogin")) {
+					request.setAttribute("errorMessage", "This login is already in use");
+				}
+				if (error.equals("notValid")) {
+					request.setAttribute("errorMessage", "Incorrect input, try again");
+				}
+				if (error.equals("wrongEmail")) {
+					request.setAttribute("errorMessage", "Incorrect email, try again");
+				}
+			} else if (lang.equals("uk")) {
+				if (error.equals("dublicateLogin")) {
+					request.setAttribute("errorMessage", "Цей логін вже є у базі");
+				}
+				if (error.equals("notValid")) {
+					request.setAttribute("errorMessage", "Не вірний ввод");
+				}
+				if (error.equals("wrongEmail")) {
+					request.setAttribute("errorMessage", "Не вірний імейл");
+				}
 			}
 		}
 
@@ -112,33 +125,31 @@ public class AddUserCommand extends Command {
 		boolean valid = UserInputValidator.validateUserParametrs(login, password, firstName, lastName);
 		LOG.trace("Validation: " + valid);
 
-		if (valid) {
-			LOG.trace("The fields got: " + login + " " + password + " " + firstName + " " + lastName + " " + roleId
-					+ " " + specializationId + ", email: " + email);
-
-			User user = new User(login, password, firstName, lastName, roleId, specializationId, countOfPatients);
-			LOG.trace("User was created: " + user);
-
-			// add user to database
-			try {
-				UserManager manager = new UserManagerImpl();
-				manager.addUser(user);
-			} catch (LoginDublicateException e) {
-				return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=dublicateLogin";
-			}
-			LOG.trace("User was added to database");
-
-			// Send email
-			if (email != null) {
-				if (UserInputValidator.validateEmail(email)) {
-					MailUtils.sendConfirmationEmail(user, email);
-				} else {
-					return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=wrongEmail";
-				}
-			}
-			
-		} else {
+		if (!valid) {
 			return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=notValid";
+		}
+		LOG.trace("The fields got: " + login + " " + password + " " + firstName + " " + lastName + " " + roleId + " "
+				+ specializationId + ", email: " + email);
+
+		User user = new User(login, password, firstName, lastName, roleId, specializationId, countOfPatients);
+		LOG.trace("User was created: " + user);
+
+		// add user to database
+		try {
+			UserManager manager = new UserManagerImpl();
+			manager.addUser(user);
+		} catch (LoginDublicateException e) {
+			return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=dublicateLogin";
+		}
+		LOG.trace("User was added to database");
+
+		// Send email
+		if (!email.equals("")) {
+			if (UserInputValidator.validateEmail(email)) {
+				MailUtils.sendConfirmationEmail(user, email);
+			} else {
+				return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=wrongEmail";
+			}
 		}
 
 		return Path.REDIRECT_TO_VIEW_ALL_DOCTORS;

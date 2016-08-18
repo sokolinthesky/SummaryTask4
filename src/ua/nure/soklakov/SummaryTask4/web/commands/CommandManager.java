@@ -21,6 +21,8 @@ public class CommandManager {
 		// common commands
 		commands.put("login", new LoginCommand());
 		commands.put("logout", new LogoutCommand());
+		commands.put("language", new LanguageCommand());
+		commands.put("noCommand", new NoCommand());
 		
 		// doctor commands
 		commands.put("listPatientsByDoctorId", new ListPatientsByDoctorCommand());

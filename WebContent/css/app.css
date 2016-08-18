@@ -12,7 +12,7 @@ body.security-app {
 	background: #fff;
 	box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
 	border-radius: 2px;
-	width: 42%;
+	width: 43%;
 	display: inline-block;
 	position: relative;
 	animation-name: fadeInUp;
@@ -367,3 +367,5 @@ input[type=date] {
    width: 15.0em;
     height: 2.3em;
 }
+
+.fr { display: inline; }

@@ -24,59 +24,60 @@ import ua.nure.soklakov.SummaryTask4.core.user.Role;
 public class AccessFilter implements Filter {
 	private static final Logger LOG = Logger.getLogger(AccessFilter.class);
 
-	// commands access	
+	// commands access
 	private static Map<Role, List<String>> accessMap = new HashMap<Role, List<String>>();
-	private static List<String> commons = new ArrayList<String>();	
+	private static List<String> commons = new ArrayList<String>();
 	private static List<String> outOfControl = new ArrayList<String>();
-	
+
 	public void destroy() {
 		LOG.debug("Filter destruction starts");
 		// do nothing
 		LOG.debug("Filter destruction finished");
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		LOG.debug("Filter starts");
-		
+
 		if (accessAllowed(request)) {
 			LOG.debug("Filter finished");
 			chain.doFilter(request, response);
 		} else {
 			String errorMessasge = "You do not have permission to access the requested resource";
-			
+
 			request.setAttribute("errorMessage", errorMessasge);
 			LOG.trace("Set the request attribute: errorMessage --> " + errorMessasge);
-			
-			request.getRequestDispatcher(Path.ERROR_PAGE)
-					.forward(request, response);
+
+			request.getRequestDispatcher(Path.ERROR_PAGE).forward(request, response);
 		}
 	}
-	
+
 	private boolean accessAllowed(ServletRequest request) {
-			HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
 		String commandName = request.getParameter("command");
+		LOG.trace("Command name --> " + commandName);
 		if (commandName == null || commandName.isEmpty())
 			return false;
-		
+		LOG.trace("1");
 		if (outOfControl.contains(commandName))
 			return true;
-		
+		LOG.trace("2");
 		HttpSession session = httpRequest.getSession(false);
-		if (session == null) 
+		if (session == null)
 			return false;
-		
-		Role userRole = (Role)session.getAttribute("userRole");
-		if (userRole == null)
-			return false;
-		
-		return accessMap.get(userRole).contains(commandName)
-				|| commons.contains(commandName);
+		LOG.trace("3");
+		Role userRole = (Role) session.getAttribute("userRole");
+		if (userRole == null) {
+			return commons.contains(commandName);
+		}
+		LOG.trace("4");
+		return accessMap.get(userRole).contains(commandName) || commons.contains(commandName);
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
 		LOG.debug("Filter initialization starts");
-		
+
 		// roles
 		accessMap.put(Role.ADMIN, asList(fConfig.getInitParameter("admin")));
 		accessMap.put(Role.DOCTOR, asList(fConfig.getInitParameter("doctor")));
@@ -90,10 +91,10 @@ public class AccessFilter implements Filter {
 		// out of control
 		outOfControl = asList(fConfig.getInitParameter("out-of-control"));
 		LOG.trace("Out of control commands --> " + outOfControl);
-		
+
 		LOG.debug("Filter initialization finished");
 	}
-	
+
 	/**
 	 * Extracts parameter values from string.
 	 * 
@@ -104,7 +105,8 @@ public class AccessFilter implements Filter {
 	private List<String> asList(String str) {
 		List<String> list = new ArrayList<String>();
 		StringTokenizer st = new StringTokenizer(str);
-		while (st.hasMoreTokens()) list.add(st.nextToken());
-		return list;		
+		while (st.hasMoreTokens())
+			list.add(st.nextToken());
+		return list;
 	}
 }

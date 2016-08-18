@@ -17,8 +17,8 @@
 		</c:if>
 		<c:if test="${userRole == 'DOCTOR'}">
 			<div>
-				<a href="controller?command=listDischargedPatients" ><button class="dropbtn" type="button">Discharged patients</button></a> 
-				<a href="controller?command=listPatientsByDoctorId"><button class="dropbtn" type="button">Patients</button></a>
+				<a href="controller?command=listDischargedPatients" ><button class="dropbtn" type="button"><fmt:message key="hospital_card.button.discharged_patients"/></button></a> 
+				<a href="controller?command=listPatientsByDoctorId"><button class="dropbtn" type="button"><fmt:message key="hopital_card.button.patients"/></button></a>
 			</div><br>
 		</c:if>
 		
@@ -26,9 +26,9 @@
 			<table id="patients" class="tablesorter">
 				<thead>
 					<tr>
-						<th>First name</th>
-						<th>Last name</th>
-						<th>Birthday</th>
+						<th><fmt:message key="patients.table.first_name"/></th>
+						<th><fmt:message key="patients.table.last_name"/></th>
+						<th><fmt:message key="patients.table.birthday"/></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -41,7 +41,7 @@
 							<td>
 								<c:if test="${userRole == 'ADMIN' && patient.doctorId == 0}">
 									<a href="controller?command=listDoctors&patientId=${patient.id}"><button class="button red small"
-										type="button">set doctor</button></a>
+										type="button"><fmt:message key="patients.button.set_doctor"/></button></a>
 								</c:if>
 						
 						
@@ -49,7 +49,8 @@
 									<form action="controller" method="get">
 										<input type="hidden" name="command" value="hospitalCard">
 										<input type="hidden" name="hospitalCardId" value="${patient.cardId}">
-										<input type="submit" value="Hospital Card" class="button red small">
+										<fmt:message key="patients.submit.hospital_card" var="hospitalCard"/>
+										<input type="submit" value="${hospitalCard}" class="button red small">
 									</form>
 								</c:if>
 							</td>

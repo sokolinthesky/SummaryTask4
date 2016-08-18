@@ -57,7 +57,7 @@
 		</init-param>
 		<init-param>
 			<param-name>common</param-name>
-			<param-value>logout noCommand</param-value>
+			<param-value>logout noCommand language login  </param-value>
 		</init-param>
 		<init-param>
 			<param-name>out-of-control</param-name>

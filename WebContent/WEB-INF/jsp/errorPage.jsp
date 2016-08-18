@@ -9,7 +9,7 @@
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
 	<div class="lc-block">
-		<h3>Error page</h3>
+		<h3><fmt:message key="error_page.title"/></h3>
 		
 		<c:set var="code"
 				value="${requestScope['javax.servlet.error.status_code']}" />

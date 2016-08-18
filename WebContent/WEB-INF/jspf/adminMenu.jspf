@@ -3,7 +3,7 @@
 
 
 <div class="dropdown" align="left">
-	<button class="dropbtn">Doctors</button>
+	<button class="dropbtn"><fmt:message key="admin_menu.button.doctors"/></button>
 	<div class="dropdown-content">
 		<c:forEach var="specialization" items="${specializations}">
 			<a
@@ -14,10 +14,10 @@
 </div>
 
 <a href="controller?command=addUser"><button class="dropbtn"
-		type="button">Add user</button></a>
+		type="button"><fmt:message key="admin_menu.button.add_user"/></button></a>
 <a href="controller?command=listPatients"><button class="dropbtn"
-		type="button">Patients</button></a>
+		type="button"><fmt:message key="admin_menu.button.patients"/></button></a>
 <a href="controller?command=addPatient"><button class="dropbtn"
-		type="button">Add patient</button></a>
+		type="button"><fmt:message key="admin_menu.button.add_patient"/></button></a>
 <br>
 <br>
