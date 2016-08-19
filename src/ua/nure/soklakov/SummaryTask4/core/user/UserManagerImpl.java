@@ -6,7 +6,7 @@ import ua.nure.soklakov.SummaryTask4.LoginDublicateException;
 import ua.nure.soklakov.SummaryTask4.dao.impl.UserDaoImpl;
 
 /**
- * UserDao implementation.
+ * UserDao implementation. Here core layer call dao methods.
  * 
  * @author Oleg Soklakov
  *
@@ -24,9 +24,9 @@ public class UserManagerImpl implements UserManager {
 	public List<User> getDoctorsBySpecialization(int specializationId) {
 		return userDao.getDoctorsBySpecialization(specializationId);
 	}
- 
+
 	@Override
-	public void addUser(User user) throws LoginDublicateException{
+	public void addUser(User user) throws LoginDublicateException {
 		userDao.addUser(user);
 	}
 

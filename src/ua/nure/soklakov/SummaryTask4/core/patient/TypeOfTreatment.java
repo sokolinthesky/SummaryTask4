@@ -1,11 +1,16 @@
 package ua.nure.soklakov.SummaryTask4.core.patient;
 
-
+/**
+ * Types of treatment that can be use.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public enum TypeOfTreatment {
 	PROCEDURE, MEDICINE, OPERATION;
-	
+
 	private int id;
-	
+
 	public int getId() {
 		return id;
 	}

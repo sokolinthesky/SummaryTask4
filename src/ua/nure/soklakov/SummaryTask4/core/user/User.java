@@ -20,8 +20,8 @@ public class User extends Entity {
 	private int specializationId;
 	private int countOfPatients;
 
-	public User(int id, String login, String password, String firstName, String lastName, int roleId, int specializationId,
-			int countOfPatients) {
+	public User(int id, String login, String password, String firstName, String lastName, int roleId,
+			int specializationId, int countOfPatients) {
 		this.setId(id);
 		this.login = login;
 		this.password = password;
@@ -31,7 +31,7 @@ public class User extends Entity {
 		this.specializationId = specializationId;
 		this.countOfPatients = countOfPatients;
 	}
-	
+
 	public User(String login, String password, String firstName, String lastName, int roleId, int specializationId,
 			int countOfPatients) {
 		this.login = login;

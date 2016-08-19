@@ -88,7 +88,7 @@ public class CompleateTheCourseOfTreatmentCommand extends Command {
 			e.printStackTrace();
 		}
 
-		patientManager.compleateTheCourseOfTreatment(patient);
+		patientManager.completeTheCourseOfTreatment(patient);
 
 		return Path.REDIRECT_TO_VIEW_DISCHARGED_PATIENTS;
 	}

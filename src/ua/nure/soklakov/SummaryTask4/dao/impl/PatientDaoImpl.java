@@ -297,7 +297,7 @@ public class PatientDaoImpl implements PatientDao {
 	}
 
 	@Override
-	public void compleateTheCourseOfTreatment(Patient patient) {
+	public void completeTheCourseOfTreatment(Patient patient) {
 		connection = ConnectionPool.getConnection();
 		try(PreparedStatement psPatient = connection.prepareStatement(Query.DELETE_PATIENT_BY_ID);
 				PreparedStatement psHospitalCard = connection.prepareStatement(Query.DELETE_HOSPITAL_CARD_BY_ID);

@@ -27,5 +27,4 @@ public abstract class Entity implements Serializable {
 		return "Entity [id=" + id + "]";
 	}
 		
-	
 }

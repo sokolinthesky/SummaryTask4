@@ -1,7 +1,7 @@
 package ua.nure.soklakov.SummaryTask4.core.user;
 
 /**
- * User role type.
+ * Roles that can be used.
  * 
  * @author Oleg Soklakov
  *
@@ -13,13 +13,6 @@ public enum Role{
 	private int id;
 	
 	public int getId() {
-		/*Role[] roles = Role.values();
-		for(int i = 0; i < roles.length; i++) {
-			if (roles[i].equals(role)) {
-				this.id = i;
-				break;
-			}
-		}*/
 		return id;
 	}
 

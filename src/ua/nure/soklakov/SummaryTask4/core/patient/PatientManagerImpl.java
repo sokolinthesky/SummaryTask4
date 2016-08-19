@@ -4,6 +4,12 @@ import java.util.List;
 
 import ua.nure.soklakov.SummaryTask4.dao.impl.PatientDaoImpl;
 
+/**
+ * Patient manager implementation. Here the business logic call dao methods.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class PatientManagerImpl implements PatientManager {
 	private PatientDao patientDao = new PatientDaoImpl();
 
@@ -15,19 +21,19 @@ public class PatientManagerImpl implements PatientManager {
 	@Override
 	public void addPatient(Patient patient) {
 		patientDao.addPatient(patient);
-		
+
 	}
 
 	@Override
 	public void setDoctorToPatient(int parientId, int doctoeId) {
 		patientDao.setDoctorToPatient(parientId, doctoeId);
-		
+
 	}
 
 	@Override
 	public void updateDiagnosisInHospitalCard(int cardId, String diagnosis) {
 		patientDao.updateDiagnosisInHospitalCard(cardId, diagnosis);
-		
+
 	}
 
 	@Override
@@ -71,9 +77,9 @@ public class PatientManagerImpl implements PatientManager {
 	}
 
 	@Override
-	public void compleateTheCourseOfTreatment(Patient patient) {
-		patientDao.compleateTheCourseOfTreatment(patient);
-		
+	public void completeTheCourseOfTreatment(Patient patient) {
+		patientDao.completeTheCourseOfTreatment(patient);
+
 	}
 
 	@Override

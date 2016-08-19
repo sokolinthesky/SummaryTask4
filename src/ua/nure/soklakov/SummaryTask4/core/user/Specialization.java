@@ -1,5 +1,11 @@
 package ua.nure.soklakov.SummaryTask4.core.user;
 
+/**
+ * Specialization that can be used.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public enum Specialization {
 
 	PEDIATRICIAN, TRAUMATOLOGIST, SURGEON;
