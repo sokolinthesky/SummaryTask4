@@ -1,7 +1,7 @@
 package ua.nure.soklakov.SummaryTask4.dao;
 
 /**
- * Query.
+ * Contains all querys to data base.
  * 
  * @author Oleg Soklakov
  *
@@ -34,7 +34,7 @@ public class Query {
 	public static final String SELECT_PATIENT_BY_HOSPITAL_CARD_ID = "SELECT * FROM patients WHERE card_id = ?";
 	public static final String SELECT_DISCHARGED_PATIENTS_BY_DOCTOR_ID = "SELECT * FROM discharged_patients WHERE doctor_id = ?";
 	public static final String DELETE_PATIENT_BY_ID = "DELETE FROM patients WHERE id = ?";
-	public static final String DELETE_HOSPITAL_CARD_BY_ID= "DELETE FROM hospital_card WHERE id = ?";
+	public static final String DELETE_HOSPITAL_CARD_BY_ID = "DELETE FROM hospital_card WHERE id = ?";
 	public static final String INSERT_DISCHARGED_PATIENT = "INSERT INTO discharged_patients (first_name, last_name, birthday, doctor_id) VALUES (?, ?, ?, ?)";
 	public static final String DELETE_TREATMENTS_BY_HOSPITAL_CARD_ID = "DELETE FROM treatment WHERE hospital_card_id = ?";
 }

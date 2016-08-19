@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import ua.nure.soklakov.SummaryTask4.LoginDublicateException;
+import ua.nure.soklakov.SummaryTask4.LoginDuplicateException;
 import ua.nure.soklakov.SummaryTask4.Path;
 import ua.nure.soklakov.SummaryTask4.core.user.Role;
 import ua.nure.soklakov.SummaryTask4.core.user.Specialization;
@@ -138,7 +138,7 @@ public class AddUserCommand extends Command {
 		try {
 			UserManager manager = new UserManagerImpl();
 			manager.addUser(user);
-		} catch (LoginDublicateException e) {
+		} catch (LoginDuplicateException e) {
 			return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=dublicateLogin";
 		}
 		LOG.trace("User was added to database");

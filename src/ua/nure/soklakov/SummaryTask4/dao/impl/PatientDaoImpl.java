@@ -56,17 +56,15 @@ public class PatientDaoImpl implements PatientDao {
 		try (Statement statement = connection.createStatement();
 				ResultSet rs = statement.executeQuery(Query.SELECT_ALL_TYPES_OF_TREATMENT)) {
 			while (rs.next()) {
-				TypeOfTreatment typeOfTreatment = null;
-				if (rs.getString("title").toUpperCase().equals(TypeOfTreatment.MEDICINE.toString())) {
-					typeOfTreatment = TypeOfTreatment.MEDICINE;
-				} else if (rs.getString("title").toUpperCase().equals(TypeOfTreatment.PROCEDURE.toString())) {
-					typeOfTreatment = TypeOfTreatment.PROCEDURE;
-				} else if (rs.getString("title").toUpperCase().equals(TypeOfTreatment.OPERATION.toString())) {
-					typeOfTreatment = TypeOfTreatment.OPERATION;
-				}
 				
-				typeOfTreatment.setId(rs.getInt("id"));
-				typesOfTreatment.add(typeOfTreatment);
+				// create entity set id and add to list
+				for(TypeOfTreatment typeOfTreatment : TypeOfTreatment.values()) {
+					if (rs.getString("title").toUpperCase().equals(typeOfTreatment.toString())) {
+						typeOfTreatment.setId(rs.getInt("id"));
+						typesOfTreatment.add(typeOfTreatment);
+						break;
+					}
+				}
 			}
 
 		} catch (SQLException ex) {
@@ -77,7 +75,6 @@ public class PatientDaoImpl implements PatientDao {
 		return typesOfTreatment;
 	}
 
-
 	@Override
 	public List<Patient> getPatientsByDoctorId(int doctorId) {
 		List<Patient> patients = new ArrayList<>();
@@ -85,7 +82,7 @@ public class PatientDaoImpl implements PatientDao {
 		try (PreparedStatement pStatement = connection.prepareStatement(Query.SELECT_PATIENTS_BY_DOCTOR_ID)) {
 			pStatement.setInt(1, doctorId);
 			pStatement.execute();
-			
+
 			ResultSet rs = pStatement.getResultSet();
 			while (rs.next()) {
 				patients.add(new Patient(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
@@ -124,14 +121,14 @@ public class PatientDaoImpl implements PatientDao {
 		try (PreparedStatement pStatement = connection.prepareStatement(Query.SET_DOCTOR_TO_PATIENT);
 				PreparedStatement psIncrement = connection.prepareStatement(Query.INCREMENT_COUNT_OF_PATIENTS)) {
 			connection.setAutoCommit(false);
-			
+
 			pStatement.setInt(1, doctoeId);
 			pStatement.setInt(2, parientId);
 			pStatement.executeUpdate();
-			
+
 			psIncrement.setInt(1, doctoeId);
 			psIncrement.executeUpdate();
-			
+
 			connection.commit();
 		} catch (SQLException ex) {
 			LOG.error("Can not set a doctor to the patient", ex);
@@ -189,7 +186,7 @@ public class PatientDaoImpl implements PatientDao {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("Can not find treatments by hospitalcard id");
 		} finally {
 			closeConnection();
 		}
@@ -278,10 +275,11 @@ public class PatientDaoImpl implements PatientDao {
 	public List<Patient> getDischargedPatientsByDoctorId(int doctorId) {
 		List<Patient> patients = new ArrayList<>();
 		connection = ConnectionPool.getConnection();
-		try (PreparedStatement pStatement = connection.prepareStatement(Query.SELECT_DISCHARGED_PATIENTS_BY_DOCTOR_ID)) {
+		try (PreparedStatement pStatement = connection
+				.prepareStatement(Query.SELECT_DISCHARGED_PATIENTS_BY_DOCTOR_ID)) {
 			pStatement.setInt(1, doctorId);
 			pStatement.execute();
-			
+
 			ResultSet rs = pStatement.getResultSet();
 			while (rs.next()) {
 				patients.add(new Patient(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
@@ -299,41 +297,47 @@ public class PatientDaoImpl implements PatientDao {
 	@Override
 	public void completeTheCourseOfTreatment(Patient patient) {
 		connection = ConnectionPool.getConnection();
-		try(PreparedStatement psPatient = connection.prepareStatement(Query.DELETE_PATIENT_BY_ID);
+		try (PreparedStatement psPatient = connection.prepareStatement(Query.DELETE_PATIENT_BY_ID);
 				PreparedStatement psHospitalCard = connection.prepareStatement(Query.DELETE_HOSPITAL_CARD_BY_ID);
 				PreparedStatement psDoctorCount = connection.prepareStatement(Query.DECREMENT_COUNT_OF_PATIENTS);
 				PreparedStatement psDischargedPatient = connection.prepareStatement(Query.INSERT_DISCHARGED_PATIENT);
-				PreparedStatement psTreatments = connection.prepareStatement(Query.DELETE_TREATMENTS_BY_HOSPITAL_CARD_ID);) {
+				PreparedStatement psTreatments = connection
+						.prepareStatement(Query.DELETE_TREATMENTS_BY_HOSPITAL_CARD_ID);) {
 			connection.setAutoCommit(false);
-			
-			LOG.trace("Patient data: id: " + patient.getId() +  ", firstName: " + patient.getFirstName() + ", lastName: " + patient.getLastName() + 
-					",date: " + patient.getBirthday() + ", cardId: " + patient.getCardId() + ", doctorID: " + patient.getDoctorId());
-			
+
+			LOG.trace("Patient data: id: " + patient.getId() + ", firstName: " + patient.getFirstName() + ", lastName: "
+					+ patient.getLastName() + ",date: " + patient.getBirthday() + ", cardId: " + patient.getCardId()
+					+ ", doctorID: " + patient.getDoctorId());
+
+			// set patient id for delete
 			psPatient.setInt(1, patient.getId());
 			psPatient.executeUpdate();
-			
+
+			// set hospital card id for delete
 			psHospitalCard.setInt(1, patient.getCardId());
 			psHospitalCard.executeUpdate();
-			
+
+			// set doctor id for decrement count of patients 
 			psDoctorCount.setInt(1, patient.getDoctorId());
 			psDoctorCount.executeUpdate();
-			
+
+			// set data for insert new discharged patient 
 			psDischargedPatient.setString(1, patient.getFirstName());
 			psDischargedPatient.setString(2, patient.getLastName());
 			psDischargedPatient.setDate(3, patient.getBirthday());
 			psDischargedPatient.setInt(4, patient.getDoctorId());
 			psDischargedPatient.executeUpdate();
-			
+
 			psTreatments.setInt(1, patient.getCardId());
 			psTreatments.executeUpdate();
-			
+
 			connection.commit();
 		} catch (SQLException ex) {
 			LOG.error("Can not compleate the course of treatment", ex);
 		} finally {
 			closeConnection();
 		}
-		
+
 	}
 
 	/**
@@ -344,7 +348,7 @@ public class PatientDaoImpl implements PatientDao {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error("Can not close connection");
 			}
 		}
 	}

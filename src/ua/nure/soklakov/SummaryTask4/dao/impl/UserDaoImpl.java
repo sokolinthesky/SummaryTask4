@@ -11,9 +11,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-
-import ua.nure.soklakov.SummaryTask4.LoginDublicateException;
+import ua.nure.soklakov.SummaryTask4.LoginDuplicateException;
 import ua.nure.soklakov.SummaryTask4.core.user.Role;
 import ua.nure.soklakov.SummaryTask4.core.user.Specialization;
 import ua.nure.soklakov.SummaryTask4.core.user.User;
@@ -71,7 +69,7 @@ public class UserDaoImpl implements UserDao {
 			}
 			resultSet.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("Can not find doctors by specialization");
 		} finally {
 			closeConnection();
 		}
@@ -80,7 +78,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void addUser(User user) throws LoginDublicateException {
+	public void addUser(User user) throws LoginDuplicateException {
 		connection = ConnectionPool.getConnection();
 		try (PreparedStatement pStatement = connection.prepareStatement(Query.INSERT_USER)) {
 			pStatement.setString(1, user.getLogin());
@@ -91,15 +89,15 @@ public class UserDaoImpl implements UserDao {
 			pStatement.setInt(6, user.getSpecializationId());
 			pStatement.setInt(7, user.getCountOfPatients());
 			pStatement.executeUpdate();
-			
-		/*} catch (MySQLIntegrityConstraintViolationException ex) {
-			LOG.error("Can not create a new user!", ex);
-			throw new LoginDublicateException();*/
+
 		} catch (SQLException ex) {
 			LOG.error("Can not create a new user", ex);
+
+			// check exception if true found duplicate
 			if (ex instanceof SQLIntegrityConstraintViolationException) {
-				throw new LoginDublicateException();
-		    }
+				LOG.error("User with such login was created");
+				throw new LoginDuplicateException();
+			}
 		} finally {
 			closeConnection();
 		}
@@ -160,18 +158,15 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(Query.SELECT_ALL_ROLES)) {
 			while (resultSet.next()) {
-				Role role = null;
-				if (resultSet.getString("name").equals("admin")) {
-					role = Role.ADMIN;
-					role.setId(resultSet.getInt("id"));
-				} else if (resultSet.getString("name").equals("doctor")) {
-					role = Role.DOCTOR;
-					role.setId(resultSet.getInt("id"));
-				} else if (resultSet.getString("name").equals("nurse")) {
-					role = Role.NURSE;
-					role.setId(resultSet.getInt("id"));
+
+				// create role entity set id and add to list
+				for (Role role : Role.values()) {
+					if (resultSet.getString("name").toUpperCase().equals(role.toString())) {
+						role.setId(resultSet.getInt("id"));
+						roles.add(role);
+						break;
+					}
 				}
-				roles.add(role);
 			}
 
 		} catch (SQLException ex) {
@@ -190,17 +185,15 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(Query.SELECT_ALL_SPECIALIZATIONS)) {
 			while (resultSet.next()) {
-				Specialization specialization = null;
-				if (resultSet.getString("title").equals("Pediatrician")) {
-					specialization = Specialization.PEDIATRICIAN;
-				} else if (resultSet.getString("title").equals("Traumatologist")) {
-					specialization = Specialization.TRAUMATOLOGIST;
-				} else if (resultSet.getString("title").equals("Surgeon")) {
-					specialization = Specialization.SURGEON;
+				
+				// create specialization entity set id and add to list
+				for (Specialization specialization : Specialization.values()) {
+					if (resultSet.getString("title").toUpperCase().equals(specialization.toString())) {
+						specialization.setId(resultSet.getInt("id"));
+						specializations.add(specialization);
+						break;
+					}
 				}
-
-				specialization.setId(resultSet.getInt("id"));
-				specializations.add(specialization);
 			}
 
 		} catch (SQLException ex) {
@@ -220,7 +213,7 @@ public class UserDaoImpl implements UserDao {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error("Can not close connection");
 			}
 		}
 	}

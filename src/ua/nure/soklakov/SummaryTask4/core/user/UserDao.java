@@ -2,7 +2,7 @@ package ua.nure.soklakov.SummaryTask4.core.user;
 
 import java.util.List;
 
-import ua.nure.soklakov.SummaryTask4.LoginDublicateException;
+import ua.nure.soklakov.SummaryTask4.LoginDuplicateException;
 
 /**
  * User dao interface. Contains all methods for user entity.
@@ -34,7 +34,7 @@ public interface UserDao {
 	 * @param user
 	 *            specified user.
 	 */
-	void addUser(User user) throws LoginDublicateException;
+	void addUser(User user) throws LoginDuplicateException;
 
 	/**
 	 * Get user by login

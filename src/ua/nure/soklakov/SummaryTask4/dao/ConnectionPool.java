@@ -8,6 +8,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
 /**
  * The class provides connection pool.
  * 
@@ -16,6 +18,8 @@ import javax.sql.DataSource;
  */
 public class ConnectionPool {
 	private static DataSource dataSource;
+	
+	private final static Logger LOG = Logger.getLogger(ConnectionPool.class);
 
 	/**
 	 * Get free connection from pool.
@@ -29,14 +33,14 @@ public class ConnectionPool {
 				Context envContext = (Context) initContext.lookup("java:/comp/env");
 				dataSource = (DataSource) envContext.lookup("jdbc/hospitaldb");
 			} catch (NamingException e) {
-				System.out.println("Cannot find the data source");
+				LOG.error("Cannot find the data source");
 			}
 		}
 
 		try {
 			return dataSource.getConnection();
 		} catch (SQLException e) {
-			System.out.println("Cannot establish connection");
+			LOG.error("Cannot establish connection");
 			return null;
 		}
 	}
