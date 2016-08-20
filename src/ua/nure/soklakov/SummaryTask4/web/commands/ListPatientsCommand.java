@@ -15,10 +15,15 @@ import ua.nure.soklakov.SummaryTask4.core.patient.PatientManager;
 import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
+/**
+ * List of all patients in the hospital command.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class ListPatientsCommand extends Command {
-
 	private static final long serialVersionUID = -2063322913213017032L;
-	
+
 	private static final Logger LOG = Logger.getLogger(ListPatientsCommand.class);
 
 	@Override
@@ -33,16 +38,19 @@ public class ListPatientsCommand extends Command {
 		LOG.debug("Command finished");
 		return result;
 	}
-	
-	private String doGet(HttpServletRequest request,
-			HttpServletResponse response) {
 
+	/**
+	 * Forward to list of all patients page.
+	 * 
+	 * @return path to page.
+	 */
+	private String doGet(HttpServletRequest request, HttpServletResponse response) {
 		PatientManager manager = new PatientManagerImpl();
 		List<Patient> patients = manager.getPatients();
-		LOG.trace("Patients were found: " + patients);
-		
+		LOG.trace("Count of patients: " + patients.size());
+
 		request.setAttribute("patients", patients);
-		
+
 		return Path.FORWARD_VIEW_ALL_PATIENTS;
 	}
 

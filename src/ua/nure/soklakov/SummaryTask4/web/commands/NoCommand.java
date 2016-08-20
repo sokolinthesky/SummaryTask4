@@ -12,13 +12,12 @@ import ua.nure.soklakov.SummaryTask4.Path;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
 /**
- * Invoked when no command was found for client request.
+ * Invoked when command was not found for client request.
  *
  * @author Soklakov Oleg
  *
  */
 public class NoCommand extends Command {
-
 	private static final long serialVersionUID = -2785976616686657267L;
 
 	private static final Logger LOG = Logger.getLogger(NoCommand.class);

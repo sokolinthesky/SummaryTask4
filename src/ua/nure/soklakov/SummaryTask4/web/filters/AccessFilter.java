@@ -21,6 +21,12 @@ import org.apache.log4j.Logger;
 import ua.nure.soklakov.SummaryTask4.Path;
 import ua.nure.soklakov.SummaryTask4.core.user.Role;
 
+/**
+ * Invokes when user what to execute some command.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class AccessFilter implements Filter {
 	private static final Logger LOG = Logger.getLogger(AccessFilter.class);
 
@@ -57,21 +63,20 @@ public class AccessFilter implements Filter {
 
 		String commandName = request.getParameter("command");
 		LOG.trace("Command name --> " + commandName);
-		if (commandName == null || commandName.isEmpty())
+		if (commandName == null || commandName.isEmpty()) {
 			return false;
-		LOG.trace("1");
-		if (outOfControl.contains(commandName))
+		}
+		if (outOfControl.contains(commandName)) {
 			return true;
-		LOG.trace("2");
+		}
 		HttpSession session = httpRequest.getSession(false);
-		if (session == null)
+		if (session == null) {
 			return false;
-		LOG.trace("3");
+		}
 		Role userRole = (Role) session.getAttribute("userRole");
 		if (userRole == null) {
 			return commons.contains(commandName);
 		}
-		LOG.trace("4");
 		return accessMap.get(userRole).contains(commandName) || commons.contains(commandName);
 	}
 
@@ -105,8 +110,9 @@ public class AccessFilter implements Filter {
 	private List<String> asList(String str) {
 		List<String> list = new ArrayList<String>();
 		StringTokenizer st = new StringTokenizer(str);
-		while (st.hasMoreTokens())
+		while (st.hasMoreTokens()) {
 			list.add(st.nextToken());
+		}
 		return list;
 	}
 }

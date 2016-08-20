@@ -18,6 +18,12 @@ import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 import ua.nure.soklakov.SummaryTask4.web.utils.validation.PatientInputValidator;
 
+/**
+ * Add patient command.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class AddPatientCommand extends Command {
 
 	private static final long serialVersionUID = 2141162477716480717L;
@@ -43,18 +49,18 @@ public class AddPatientCommand extends Command {
 	}
 
 	/**
-	 * Forwards to add page.
+	 * Forwards to add patient form.
 	 *
-	 * @return path to the add user page.
+	 * @return path to the add patient page.
 	 */
 	private String doGet(HttpServletRequest request, HttpServletResponse response) {
 		LOG.trace("Request for only showing addPatientForm.jsp");
 
-		// error message if exist
+		// error message if if fields not properly filled
 		if (request.getParameter("error") != null) {
 			String lang = (String) request.getSession().getAttribute("lang");
 			String errorMessage = "";
-			if (lang == null || lang.equals("en"))  {
+			if (lang == null || lang.equals("en")) {
 				errorMessage = "Inncorect input or date, try again";
 			} else if (lang.equals("uk")) {
 				errorMessage = "Не вірний ввод, або дата";
@@ -66,17 +72,18 @@ public class AddPatientCommand extends Command {
 	}
 
 	/**
-	 * Redirects user after submitting add user form.
+	 * Redirects user after submitting add patient form.
 	 *
-	 * @return path to the view of added user if fields properly filled,
-	 *         otherwise redisplays add Faculty page.
+	 * @return path to the view of added patients if fields properly filled,
+	 *         otherwise redisplays add patient page.
 	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) {
 
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		Date selectedDate = null;
-		
+
+		// get selected birthday
 		try {
 			java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("date"));
 			selectedDate = new Date(date.getTime());
@@ -87,7 +94,7 @@ public class AddPatientCommand extends Command {
 		boolean valid = PatientInputValidator.validatePatientParametrs(firstName, lastName, selectedDate);
 
 		if (valid) {
-	
+
 			LOG.trace("Fields were got: " + firstName + "," + lastName + ", " + selectedDate);
 
 			Patient patient = new Patient(firstName, lastName, selectedDate);
@@ -96,8 +103,9 @@ public class AddPatientCommand extends Command {
 			int hospitalCardId = manager.addHospitalCard();
 			patient.setCardId(hospitalCardId);
 			manager.addPatient(patient);
-			LOG.trace("The Patioen was added to database");
+			LOG.trace("The Patient was added to database");
 		} else {
+			LOG.trace("Fields not properly filled");
 			return Path.REDIRECT_TO_VIEW_ADD_PATIENT_FORM + "&error=notValid";
 		}
 

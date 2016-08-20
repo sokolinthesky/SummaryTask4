@@ -20,6 +20,12 @@ import ua.nure.soklakov.SummaryTask4.web.ActionType;
 import ua.nure.soklakov.SummaryTask4.web.utils.MailUtils;
 import ua.nure.soklakov.SummaryTask4.web.utils.validation.UserInputValidator;
 
+/**
+ * Add user command.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class AddUserCommand extends Command {
 
 	private static final long serialVersionUID = 3315917092461024179L;
@@ -45,7 +51,7 @@ public class AddUserCommand extends Command {
 	}
 
 	/**
-	 * Forwards to add page.
+	 * Forwards to add user page.
 	 *
 	 * @return path to the add user page.
 	 */
@@ -54,17 +60,20 @@ public class AddUserCommand extends Command {
 
 		UserManager manager = new UserManagerImpl();
 
+		// get all roles for form
 		List<Role> roles = manager.getRoles();
 		LOG.trace("All roles found: " + roles);
-
+		
+		// get all specialization for form
 		List<Specialization> specializations = manager.getSpecializations();
 		LOG.trace("All specializations found: " + specializations);
 
+		// set roles and specializations as attribute
 		request.setAttribute("roles", roles);
 		request.setAttribute("specializations", specializations);
 		LOG.trace("All roles and specializations added like attributes");
 
-		// error message if exist
+		// error message if fields not properly filled
 		if (request.getParameter("error") != null) {
 			String error = request.getParameter("error");
 			String lang = (String) request.getSession().getAttribute("lang");
@@ -95,10 +104,10 @@ public class AddUserCommand extends Command {
 	}
 
 	/**
-	 * Redirects user after submitting add user form.
+	 * Redirects to view all users after submitting add user form.
 	 *
 	 * @return path to the view of added user if fields properly filled,
-	 *         otherwise redisplays add Faculty page.
+	 *         otherwise redisplays add user page.
 	 * @throws IOException
 	 * @throws ServletException
 	 */
@@ -120,6 +129,8 @@ public class AddUserCommand extends Command {
 		if (request.getParameter("email") != null) {
 			email = request.getParameter("email");
 		}
+		LOG.trace("The fields got: " + login + " " + password + " " + firstName + " " + lastName + " " + roleId + " "
+				+ specializationId + ", email: " + email);
 
 		// validation
 		boolean valid = UserInputValidator.validateUserParametrs(login, password, firstName, lastName);
@@ -128,9 +139,8 @@ public class AddUserCommand extends Command {
 		if (!valid) {
 			return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=notValid";
 		}
-		LOG.trace("The fields got: " + login + " " + password + " " + firstName + " " + lastName + " " + roleId + " "
-				+ specializationId + ", email: " + email);
-
+		
+		// create user entity
 		User user = new User(login, password, firstName, lastName, roleId, specializationId, countOfPatients);
 		LOG.trace("User was created: " + user);
 
@@ -139,6 +149,7 @@ public class AddUserCommand extends Command {
 			UserManager manager = new UserManagerImpl();
 			manager.addUser(user);
 		} catch (LoginDuplicateException e) {
+			LOG.error("Find same login in database");
 			return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=dublicateLogin";
 		}
 		LOG.trace("User was added to database");
@@ -147,7 +158,9 @@ public class AddUserCommand extends Command {
 		if (!email.equals("")) {
 			if (UserInputValidator.validateEmail(email)) {
 				MailUtils.sendConfirmationEmail(user, email);
+				LOG.trace("Email was sent");
 			} else {
+				LOG.error("Wrong email");
 				return Path.REDIRECT_TO_VIEW_ADD_USER_FORM + "&error=wrongEmail";
 			}
 		}

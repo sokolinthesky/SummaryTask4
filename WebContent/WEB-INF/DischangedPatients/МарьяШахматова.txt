@@ -1,6 +1,0 @@
-FirstName: Марья
-LastName: Шахматова
-Diagmosis: ÐÐ»Ð»ÐµÑÐ³Ð¸Ñ
-Doctor: Petr Petrov
-Treatments:
- TypeOfTreatment: MEDICINE | Name: Назол | isDone: true

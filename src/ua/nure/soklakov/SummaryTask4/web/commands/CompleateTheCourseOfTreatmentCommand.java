@@ -24,6 +24,12 @@ import ua.nure.soklakov.SummaryTask4.core.user.UserManager;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
+/**
+ * Complete the course of treatment command for specified patient.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class CompleateTheCourseOfTreatmentCommand extends Command {
 
 	private static final long serialVersionUID = -5220729644390411869L;
@@ -45,23 +51,27 @@ public class CompleateTheCourseOfTreatmentCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Redirect to view discharged patients after completing course of treatment
+	 * for patient.
+	 * 
+	 * @return path to view all discharged patients.
+	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) {
-
 		PatientManager patientManager = new PatientManagerImpl();
 		UserManager userManager = new UserManagerImpl();
 
+		// get current hospital card id from session
 		int hospitalCardId = (int) request.getSession().getAttribute("hospitalCardId");
 		LOG.trace("Hospital card id: " + hospitalCardId);
 
+		// get all data about current patient
 		HospitalCard hospitalCard = patientManager.getHospitalCardById(hospitalCardId);
-
 		List<Treatment> treatments = patientManager.getTreatmentsByCardId(hospitalCardId);
-
 		Patient patient = patientManager.getPatientByHospitalCardId(hospitalCardId);
 		LOG.trace("Patient data: id: " + patient.getId() + ", firstName: " + patient.getFirstName() + ", lastName: "
 				+ patient.getLastName() + ",date: " + patient.getBirthday() + ", cardId: " + patient.getCardId()
 				+ ", doctorID: " + patient.getDoctorId());
-
 		User doctor = userManager.getUserById(patient.getDoctorId());
 
 		// write data to file
@@ -77,6 +87,7 @@ public class CompleateTheCourseOfTreatmentCommand extends Command {
 			writer.write("Doctor: " + doctor.getFirstName() + " " + doctor.getLastName() + "\r\n");
 			writer.write("Treatments:\r\n");
 
+			// write all history of treatment
 			for (Treatment t : treatments) {
 				writer.write(" TypeOfTreatment: " + TypeOfTreatment.getTypeOfTreatment(t) + " | Name: "
 						+ t.getNameOfMedication() + " | isDone: " + t.isDone() + "\r\n");
@@ -84,10 +95,10 @@ public class CompleateTheCourseOfTreatmentCommand extends Command {
 
 			writer.close();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Can not write data to file");
 		}
 
+		// complete course of treatment
 		patientManager.completeTheCourseOfTreatment(patient);
 
 		return Path.REDIRECT_TO_VIEW_DISCHARGED_PATIENTS;

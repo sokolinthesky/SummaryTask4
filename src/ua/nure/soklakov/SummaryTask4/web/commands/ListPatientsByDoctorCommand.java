@@ -16,10 +16,16 @@ import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
 import ua.nure.soklakov.SummaryTask4.core.user.User;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
+/**
+ * List patients by doctor id command.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class ListPatientsByDoctorCommand extends Command {
 
 	private static final long serialVersionUID = -405445733126752744L;
-	
+
 	private static final Logger LOG = Logger.getLogger(ListPatientsByDoctorCommand.class);
 
 	@Override
@@ -31,26 +37,30 @@ public class ListPatientsByDoctorCommand extends Command {
 		if (ActionType.GET == actionType) {
 			result = doGet(request, response);
 		}
-		
+
 		LOG.debug("Command finished");
 		return result;
 	}
-	
-	private String doGet(HttpServletRequest request,
-			HttpServletResponse response) {
 
-		//int doctorId = Integer.parseInt(request.getParameter("doctorId"));
-		
+	/**
+	 * Forward to list of patients by doctor id page.
+	 * 
+	 * @return path to list of patients page.
+	 */
+	private String doGet(HttpServletRequest request, HttpServletResponse response) {
+
+		// get doctor id
 		User doctor = (User) request.getSession().getAttribute("user");
 		int doctorId = doctor.getId();
 		LOG.trace("Doctor id: " + doctorId);
-		
+
+		// find patients by doctor id
 		PatientManager manager = new PatientManagerImpl();
 		List<Patient> patients = manager.getPatientsByDoctorId(doctorId);
 		LOG.trace("Patients were found by doctor id: " + patients);
-		
+
 		request.setAttribute("patients", patients);
-		
+
 		return Path.FORWARD_VIEW_ALL_PATIENTS;
 	}
 

@@ -1,8 +1,0 @@
-FirstName: Мария
-LastName: Абаза
-Diagmosis: Скалеоз
-Doctor: Petr Petrov
-Treatments:
- TypeOfTreatment: MEDICINE | Name: Венитан | isDone: false
- TypeOfTreatment: MEDICINE | Name: Аэсцин Гель | isDone: false
- TypeOfTreatment: PROCEDURE | Name: Занятие в тренажерном зале | isDone: false

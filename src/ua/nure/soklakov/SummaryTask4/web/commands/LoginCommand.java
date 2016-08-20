@@ -23,7 +23,6 @@ import ua.nure.soklakov.SummaryTask4.web.ActionType;
  *
  */
 public class LoginCommand extends Command {
-
 	private static final long serialVersionUID = -3071536593627692473L;
 
 	private static final Logger LOG = Logger.getLogger(LoginCommand.class);
@@ -31,7 +30,6 @@ public class LoginCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
-
 		LOG.debug("Start executing Command");
 
 		String result = null;
@@ -47,9 +45,9 @@ public class LoginCommand extends Command {
 	}
 
 	/**
-	 * Logins user in system. As first page displays view of all faculties.
+	 * Logins user in system. As first page displays depends on the user role.
 	 *
-	 * @return path to the view of all faculties.
+	 * @return path to the page.
 	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) {
 		String forward = null;
@@ -60,10 +58,9 @@ public class LoginCommand extends Command {
 		String password = request.getParameter("password");
 
 		UserManager manager = new UserManagerImpl();
-
 		User user = manager.getUserByLogin(login);
-
 		LOG.trace("User found: " + user);
+
 		if (user == null || !password.equals(user.getPassword())) {
 			String lang = (String) request.getSession().getAttribute("lang");
 			String errorMessage = "";

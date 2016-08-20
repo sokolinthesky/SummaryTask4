@@ -15,8 +15,13 @@ import ua.nure.soklakov.SummaryTask4.core.user.UserManager;
 import ua.nure.soklakov.SummaryTask4.core.user.UserManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
+/**
+ * List doctors by specialization command.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class ListDoctorsBySpecializationCommand extends Command {
-
 	private static final long serialVersionUID = -7126747068896099191L;
 
 	private static final Logger LOG = Logger.getLogger(ListDoctorsBySpecializationCommand.class);
@@ -37,9 +42,9 @@ public class ListDoctorsBySpecializationCommand extends Command {
 	}
 
 	/**
-	 * Forward user to page of all doctors. View type depends on the user role.
+	 * Forward user to page of all doctors. View type depends on the user id.
 	 *
-	 * @return to view of all doctors
+	 * @return to view of all doctors by specialization.
 	 */
 	private String doGet(HttpServletRequest request, HttpServletResponse response) {
 		int specializationId = Integer.parseInt(request.getParameter("specializationId"));

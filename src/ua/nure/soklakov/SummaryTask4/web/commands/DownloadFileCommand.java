@@ -14,6 +14,12 @@ import org.apache.log4j.Logger;
 
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
+/**
+ * Download discharged patient data command.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class DownloadFileCommand extends Command {
 
 	private static final long serialVersionUID = -6083396647578709168L;
@@ -36,26 +42,30 @@ public class DownloadFileCommand extends Command {
 		return result;
 	}
 
+	/**
+	 * Download specified file.
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		LOG.debug("DownloadFileCommand starts");
 
-		/*String patientName = new String(request.getParameter("firstName").getBytes("ISO-8859-1"), "UTF-8");
-		String patientLastName = new String(request.getParameter("lastName").getBytes("ISO-8859-1"), "UTF-8");*/
 		String patientName = request.getParameter("firstName");
 		String patientLastName = request.getParameter("lastName");
 		LOG.trace("First name: " + patientName + ", Last name: " + patientLastName);
+
 		// to obtain the bytes for unsafe characters
 		String fileName = URLEncoder.encode(patientName + patientLastName + ".txt", "UTF-8");
-		//fileName = URLDecoder.decode(fileName, "ISO8859_1");
 		String filePath = "C:/workspace_eclipse/SummaryTask4/WebContent/WEB-INF/DischangedPatients/" + patientName
 				+ patientLastName + ".txt";
 
 		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-		File my_file = new File(filePath);
+		File file = new File(filePath);
 
 		// This should send the file to browser
 		OutputStream out = response.getOutputStream();
-		FileInputStream in = new FileInputStream(my_file);
+		FileInputStream in = new FileInputStream(file);
 		byte[] buffer = new byte[4096];
 		int length;
 		while ((length = in.read(buffer)) > 0) {

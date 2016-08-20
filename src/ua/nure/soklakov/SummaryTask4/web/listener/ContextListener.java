@@ -1,9 +1,5 @@
 package ua.nure.soklakov.SummaryTask4.web.listener;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -12,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
- * Context listener. Initializes log4j, i18n and Command Manager for future use.
+ * Context listener. Initializes log4j and Command Manager for future use.
  *
  * @author Oleg Soklakov
  *
@@ -33,7 +29,6 @@ public class ContextListener implements ServletContextListener {
 
 		ServletContext servletContext = event.getServletContext();
 		initLog4J(servletContext);
-		//initI18N(servletContext);
 		initCommandManager();
 
 		log("Servlet context initialization finished");
@@ -52,33 +47,6 @@ public class ContextListener implements ServletContextListener {
 	}
 
 	/**
-	 * Initializes i18n subsystem.
-	 *
-	 * @param servletContext
-	 *            - gets init parameters from descriptor.
-	 */
-	/*private void initI18N(ServletContext servletContext) {
-		LOG.debug("I18N subsystem initialization started");
-
-		String localesValue = servletContext.getInitParameter("locales");
-		if (localesValue == null || localesValue.isEmpty()) {
-			LOG.warn("'locales' init parameter is empty, the default encoding will be used");
-		} else {
-			List<String> locales = new ArrayList<String>();
-			StringTokenizer st = new StringTokenizer(localesValue);
-			while (st.hasMoreTokens()) {
-				String localeName = st.nextToken();
-				locales.add(localeName);
-			}
-
-			LOG.debug("Application attribute set: 'locales' = " + locales);
-			servletContext.setAttribute("locales", locales);
-		}
-
-		LOG.debug("I18N subsystem initialization finished");
-	}*/
-
-	/**
 	 * Initializes log4j framework.
 	 *
 	 * @param servletContext
@@ -88,8 +56,7 @@ public class ContextListener implements ServletContextListener {
 	private void initLog4J(ServletContext servletContext) {
 		log("Log4J initialization started");
 		try {
-			PropertyConfigurator.configure(servletContext
-					.getRealPath("WEB-INF/log4j.properties"));
+			PropertyConfigurator.configure(servletContext.getRealPath("WEB-INF/log4j.properties"));
 		} catch (Exception ex) {
 			LOG.error("Cannot configure Log4j", ex);
 		}
@@ -107,8 +74,7 @@ public class ContextListener implements ServletContextListener {
 		try {
 			Class.forName("ua.nure.soklakov.SummaryTask4.web.commands.CommandManager");
 		} catch (ClassNotFoundException ex) {
-			throw new IllegalStateException(
-					"Cannot initialize Command Manager", ex);
+			throw new IllegalStateException("Cannot initialize Command Manager", ex);
 		}
 	}
 

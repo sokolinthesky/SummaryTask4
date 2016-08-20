@@ -1,8 +1,0 @@
-FirstName: 123
-LastName: 123
-Diagmosis: diagnosis
-Doctor: Petr Petrov
-Treatments:
- TypeOfTreatment: MEDICINE | Name: qweqweqw | isDone: true
- TypeOfTreatment: PROCEDURE | Name: eqweqeqe | isDone: true
- TypeOfTreatment: OPERATION | Name: qweqwee | isDone: true

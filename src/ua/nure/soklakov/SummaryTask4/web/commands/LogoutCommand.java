@@ -12,17 +12,21 @@ import org.apache.log4j.Logger;
 import ua.nure.soklakov.SummaryTask4.Path;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
+/**
+ * Invokes when user want to logout.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class LogoutCommand extends Command {
-
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger LOG = Logger.getLogger(LogoutCommand.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
 			throws IOException, ServletException {
 		LOG.debug("Start executing Command");
-
 		String result = null;
 
 		if (ActionType.GET == actionType) {
@@ -30,18 +34,20 @@ public class LogoutCommand extends Command {
 		}
 
 		LOG.debug("Finished executing Command");
-
 		return result;
 	}
 
+	/**
+	 * Forward to login page after logout.
+	 * 
+	 * @return path to login page
+	 */
 	private String doGet(HttpServletRequest request, HttpServletResponse response) {
-		LOG.debug("Command starts");
-
 		HttpSession session = request.getSession(false);
-		if (session != null)
+		if (session != null) {
 			session.invalidate();
+		}
 
-		LOG.debug("Command finished");
 		return Path.WELCOME_PAGE;
 	}
 }

@@ -30,10 +30,8 @@ import ua.nure.soklakov.SummaryTask4.core.user.User;
 public class MailUtils {
 	private static final Logger LOG = Logger.getLogger(MailUtils.class);
 	private static final Session SESSION = init();
-	// private static final String confirmSubjectRu = "Подтвердите регистрацию";
-	// private static final String confirmSubjectEng = "Confirm Registration";
-	// private final static String confirmationURL = "http://localhost:8080/busstation/controller?command=confirmRegistration&ID=";
-
+	private static final String theme = "Registration";
+	
 	private static Session init() {
 		Session session = null;
 		try {
@@ -46,7 +44,7 @@ public class MailUtils {
 	}
 
 	/**
-	 * Send confirmation email to user.
+	 * Send email with information to user.
 	 * 
 	 * @param user
 	 *            recipient.
@@ -58,12 +56,6 @@ public class MailUtils {
 			Message msg = new MimeMessage(SESSION);
 			msg.setFrom(new InternetAddress("hospitalepam@gmail.com"));
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-
-			/*
-			 * if (user.getLang().equals("ru")) {
-			 * setContentToConfirmationEmailRu(msg, user); } else {
-			 * setContentToConfirmationEmailEng(msg, user); }
-			 */
 
 			setContentToConfirmationEmailEng(msg, user);
 
@@ -91,11 +83,9 @@ public class MailUtils {
 	 */
 	private static void setContentToConfirmationEmailEng(Message msg, User user)
 			throws MessagingException, UnsupportedEncodingException {
-		//msg.setSubject(confirmSubjectEng);
+		msg.setSubject(theme);
 
 		Multipart multipart = new MimeMultipart();
-
-		//String encodedEmail = new String(Base64.getEncoder().encode(user.getLogin().getBytes(StandardCharsets.UTF_8)));
 
 		InternetHeaders emailAndPass = new InternetHeaders();
 		emailAndPass.addHeader("Content-type", "text/plain; charset=UTF-8");
@@ -106,14 +96,7 @@ public class MailUtils {
 
 		MimeBodyPart greetingAndData = new MimeBodyPart(emailAndPass, (hello + data).getBytes("UTF-8"));
 
-		/*InternetHeaders headers = new InternetHeaders();
-		headers.addHeader("Content-type", "text/html; charset=UTF-8");
-		String confirmLink = "Complete your registration by clicking on following" + "<a href='" + confirmationURL
-				+ encodedEmail + "'>link</a>";
-		MimeBodyPart link = new MimeBodyPart(headers, confirmLink.getBytes("UTF-8"));*/
-
 		multipart.addBodyPart(greetingAndData);
-		//multipart.addBodyPart(link);
 
 		msg.setContent(multipart);
 	}

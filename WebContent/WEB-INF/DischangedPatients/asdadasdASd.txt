@@ -1,9 +1,0 @@
-FirstName: asdad
-LastName: asdASd
-Diagmosis: diagnosis1
-Doctor: Petr Petrov
-Treatments:
- TypeOfTreatment: OPERATION | Name: 12313 | isDone: true
- TypeOfTreatment: MEDICINE | Name: eqweqw | isDone: true
- TypeOfTreatment: PROCEDURE | Name: procedure | isDone: true
- TypeOfTreatment: OPERATION | Name: operation2 | isDone: true

@@ -13,8 +13,14 @@ import ua.nure.soklakov.SummaryTask4.core.patient.PatientManager;
 import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
 import ua.nure.soklakov.SummaryTask4.web.ActionType;
 
+/**
+ * To perform treatment for current patient command. Invokes when doctor or
+ * nurse finished treatment.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
 public class PerformTreatmentCommand extends Command {
-
 	private static final long serialVersionUID = 6738405211563400773L;
 
 	private static final Logger LOG = Logger.getLogger(PerformTreatmentCommand.class);
@@ -33,15 +39,19 @@ public class PerformTreatmentCommand extends Command {
 		LOG.debug("Finished executing Command");
 		return result;
 	}
-	
+
+	/**
+	 * Redirect to view hospital card current patient.
+	 * 
+	 * @return path to view hospital card.
+	 */
 	private String doPost(HttpServletRequest request, HttpServletResponse response) {
-		
 		int treatmentId = Integer.parseInt(request.getParameter("id"));
 		LOG.trace("Treatment id: " + treatmentId);
-		
+
 		PatientManager manager = new PatientManagerImpl();
 		manager.finishTreatment(treatmentId);
-		
+
 		return Path.REDIRECT_TO_VIEW_HOSPITAL_CARD;
 	}
 

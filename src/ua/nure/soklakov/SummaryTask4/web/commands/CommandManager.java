@@ -17,13 +17,14 @@ public class CommandManager {
 
 	private static Map<String, Command> commands = new HashMap<String, Command>();
 
+	// initialization all commands
 	static {
 		// common commands
 		commands.put("login", new LoginCommand());
 		commands.put("logout", new LogoutCommand());
 		commands.put("language", new LanguageCommand());
 		commands.put("noCommand", new NoCommand());
-		
+
 		// doctor commands
 		commands.put("listPatientsByDoctorId", new ListPatientsByDoctorCommand());
 		commands.put("hospitalCard", new HospitalCardCommand());
@@ -32,7 +33,7 @@ public class CommandManager {
 		commands.put("listDischargedPatients", new ListDischargedPatientsCommand());
 		commands.put("compleateCourseOfTreatment", new CompleateTheCourseOfTreatmentCommand());
 		commands.put("downloadFile", new DownloadFileCommand());
-		
+
 		// admin commands
 		commands.put("listDoctors", new ListDoctorsCommand());
 		commands.put("listDoctorsBySpecialization", new ListDoctorsBySpecializationCommand());
@@ -40,7 +41,7 @@ public class CommandManager {
 		commands.put("addPatient", new AddPatientCommand());
 		commands.put("appointDoctor", new AppointDoctorCommand());
 		commands.put("listPatients", new ListPatientsCommand());
-		
+
 		LOG.debug("Command container was successfully initialized");
 		LOG.trace("Total number of commands equals to " + commands.size());
 	}

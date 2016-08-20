@@ -1,8 +1,0 @@
-FirstName: Олексій
-LastName: Майор
-Diagmosis: Желтуха1
-Doctor: Petr Petrov
-Treatments:
- TypeOfTreatment: MEDICINE | Name: Назол | isDone: true
- TypeOfTreatment: MEDICINE | Name: dsfasdsdf | isDone: true
- TypeOfTreatment: OPERATION | Name: eqweqwe | isDone: true
