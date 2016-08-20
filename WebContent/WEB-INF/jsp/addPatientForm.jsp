@@ -2,17 +2,26 @@
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 <html>
 <!-- Head -->
+<c:set var="title" scope="request" value="Add patient"/>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 <body class="security-app">
-
+	
 	<!-- Header -->
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
 	<div class="lc-block">
 	
+		<!-- Menu -->
 		<%@ include file="/WEB-INF/jspf/adminMenu.jspf"%>
 		
-		${errorMessage}
+		<!-- Error message if there is -->
+		<c:if test="${not empty errorMessage}">
+				<p>
+					<c:out value="${errorMessage}" />
+				</p>
+		</c:if>
+		
+		<!-- Add patient form -->
 		<form action="controller" method="post">
 			<input type="hidden" name="command" value="addPatient">
 			
@@ -36,7 +45,6 @@
 			<fmt:message key="patiet_form.submit" var="submit" />
 			<input type="submit" value="${submit}" class="button red middle">
 		</form>
-		
 	</div>
 </body>
 </html>

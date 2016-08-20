@@ -5,6 +5,7 @@
 <html>
 
 <!-- Head -->
+<c:set var="title" scope="request" value="Patients"/>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 <body class="security-app">
 	

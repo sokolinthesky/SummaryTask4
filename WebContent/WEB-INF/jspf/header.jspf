@@ -8,6 +8,8 @@
 	<img alt="" src="img/red-cross (1).png">
 	<h2>Hospital Management System</h2>
 	<br>
+	
+	<!-- User info -->
 	<c:if test="${not empty userRole}">
 		<b><c:out value="${user.firstName} ${user.lastName} (${userRole.name})" /></b>
 		<a href="controller?command=logout" style="color:#f2f2f2"><fmt:message key="header.logout"/></a>

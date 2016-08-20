@@ -4,6 +4,7 @@
 <%@ taglib uri="/WEB-INF/patientCustomTag.tld" prefix="patient"%>
 <html>
 <!-- Head -->
+<c:set var="title" scope="request" value="Discharged patients"/>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 <body class="security-app">
 	

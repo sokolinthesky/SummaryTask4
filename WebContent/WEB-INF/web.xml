@@ -20,25 +20,41 @@
    	 	<res-auth>Container</res-auth>
    	 	<res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    
+    <!-- Custom tag used in list of patients pages -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/WEB-INF/patientCustomTag</taglib-uri>
+			<taglib-location>/WEB-INF/patientCustomTag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
 
+	<!--============================================================ 
+		Front Controller 
+	============================================================= -->
 	<servlet>
 		<servlet-name>FrontController</servlet-name>
 		<servlet-class>ua.nure.soklakov.SummaryTask4.web.FrontController</servlet-class>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>FrontController</servlet-name>
 		<url-pattern>/controller</url-pattern>
 	</servlet-mapping>
 
+	<!--============================================================ 
+		Context listener 
+	============================================================= -->
 	<listener>
 		<listener-class>ua.nure.soklakov.SummaryTask4.web.listener.ContextListener</listener-class>
 	</listener>
 
+	<!--============================================================
+	Access support filter
+	=============================================================-->
 	<filter>
 		<filter-name>AccessFilter</filter-name>
 		<filter-class>ua.nure.soklakov.SummaryTask4.web.filters.AccessFilter</filter-class>

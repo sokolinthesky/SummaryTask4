@@ -1,7 +1,9 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+<%@ taglib prefix="treatment" tagdir="/WEB-INF/tags"%>
 <html>
 <!-- Head -->
+<c:set var="title" scope="request" value="Hospital card"/>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 <body class="security-app">
 
@@ -23,9 +25,16 @@
 		<br>
 		<br>
 		
-		${errorMessage}
+		<!-- Error message if there is -->
+		<c:if test="${not empty errorMessage}">
+				<p>
+					<c:out value="${requestScope.errorMessage}" />
+				</p>
+		</c:if>
+		
 		<h3><fmt:message key="hospital_card.diagnosis"/> : ${hospitalCard.diagnosis} </h3>
 	
+		<!-- DOCTOR actions -->
 		<c:if test="${userRole == 'DOCTOR'}">
 			<fmt:message key="hospital_card.button.change" var="change"/>
 			<input type="button" name="ok" value="${change}" onclick="showField();" class="button red small">
@@ -42,6 +51,7 @@
 			</form>
 			<br>
 			
+			<!-- Add treatment form -->
 			<fmt:message key="hospital_card.button.add_treatment" var="addTreatment"/>
 			<input type="button" name="ok" value="${addTreatment}" onclick="showAddTreatment();" class="button red small"><br><br>
 			<div id="addTreatment" style="display:none;">
@@ -69,10 +79,11 @@
 				<input type="submit" value="${compleate}" class="button blue middle">
 			</form>
 			<br>
-	</c:if>
+		</c:if>
 	
 	<br>
 	
+	<!-- Table of treatments -->
 	<c:if test="${not empty treatments}">
 		<fmt:message key="hospital_card.treatments"/>:<br>
 		<table>
@@ -87,63 +98,7 @@
 			<tbody>
 				<c:forEach var="treatment" items="${treatments}">
 					<tr>
-						<c:if test="${userRole == 'DOCTOR'}">
-							<td>
-								<c:forEach var="typesOfTreatment" items="${typesOfTreatments}">
-									<c:if test="${treatment.typeOfTreatmentId == typesOfTreatment.id}">
-										${typesOfTreatment}
-									</c:if>
-								</c:forEach>
-							</td>
-							<td>${treatment.nameOfMedication}</td>
-							
-							<c:if test="${treatment.done}">
-								<td bgcolor="#33cc33" >${treatment.done}</td>
-							</c:if>
-							<c:if test="${not treatment.done}">
-								<td bgcolor="#ff3300" >${treatment.done}</td>
-							</c:if>
-							
-							
-							<td>
-								<c:if test="${treatment.done == false}">	 
-									<form action="controller" method="post">
-										<input type="hidden" name="command" value="compleateTreatment">
-										<input type="hidden" name="id" value="${treatment.id}">
-										<fmt:message key="hospital_card.submit.compleate" var="perform"/>
-										<input type="submit" value="${perform}">
-									</form>
-								</c:if>
-							</td>
-						</c:if>
-						<c:if test="${userRole == 'NURSE' && treatment.typeOfTreatmentId ne 3}">
-							<td>
-								<c:forEach var="typesOfTreatment" items="${typesOfTreatments}">
-									<c:if test="${treatment.typeOfTreatmentId == typesOfTreatment.id}">
-										${typesOfTreatment}
-									</c:if>
-								</c:forEach>
-							</td>
-							<td>${treatment.nameOfMedication}</td>
-							
-							<c:if test="${treatment.done}">
-								<td bgcolor="#33cc33" >${treatment.done}</td>
-							</c:if>
-							<c:if test="${not treatment.done}">
-								<td bgcolor="#ff3300" >${treatment.done}</td>
-							</c:if>
-							
-							<td>
-								<c:if test="${treatment.done == false}">	 
-									<form action="controller" method="post">
-										<input type="hidden" name="command" value="compleateTreatment">
-										<input type="hidden" name="id" value="${treatment.id}">
-										<fmt:message key="hospital_card.submit.compleate" var="perform"/>
-										<input type="submit" value="${perform}">
-									</form>
-								</c:if>
-							</td>
-						</c:if> 
+						<treatment:treatment treatment="${treatment}"/>
 					</tr>
 				</c:forEach>
 			</tbody>

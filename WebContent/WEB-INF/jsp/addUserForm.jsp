@@ -2,17 +2,26 @@
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 <html>
 <!-- Head -->
+<c:set var="title" scope="request" value="Add user"/>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 <body class="security-app">
 	
+	<!-- Header -->
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
 	<div class="lc-block">
 	
+		<!-- Menu -->
 		<%@ include file="/WEB-INF/jspf/adminMenu.jspf"%>
 	
-		${requestScope.errorMessage}
+		<!-- Error message if there is -->
+		<c:if test="${not empty errorMessage}">
+				<p>
+					<c:out value="${requestScope.errorMessage}" />
+				</p>
+		</c:if>
 		
+		<!-- Add user form -->
 		<form action="controller" method="post">
 			<input type="hidden" name="command" value="addUser">
 			
@@ -47,7 +56,7 @@
 	
 			
 			<fmt:message key="user_form.input.role"/>:<br>
-			<select id="mySelect" onchange="JoinedOrNot()" name="roleId">
+			<select id="roleSelect" onchange="JoinedOrNot()" name="roleId">
 				<c:forEach var="role" items="${roles}">
 					<c:if test="${role ne 'ADMIN'}">
 						<option value="${role.id}">${role}</option>
@@ -58,7 +67,7 @@
 			<br>
 	
 			<fmt:message key="user_form.input.specialization"/>:<br>
-			<select id="mySelect1" name="specializationId">
+			<select id="specSelect" name="specializationId">
 				<c:forEach var="specialization" items="${specializations}">
 					<option value="${specialization.id}">${specialization}</option>
 				</c:forEach>
@@ -69,16 +78,15 @@
 			<fmt:message key="user_form.submit" var="submit"/>
 			<input type="submit" value="${submit}" class="button red middle">
 		</form>
-	
 	</div>
 </body>
 <script>
 	function JoinedOrNot() {
-		var cat = document.getElementById("mySelect");
+		var cat = document.getElementById("roleSelect");
 		if (cat.value == "1") {
-			document.getElementById("mySelect1").disabled = false;
+			document.getElementById("specSelect").disabled = false;
 		} else {
-			document.getElementById("mySelect1").disabled = true;
+			document.getElementById("specSelect").disabled = true;
 		}
 	}
 </script>

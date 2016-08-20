@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 
-
+<!-- Menu -->
 <div class="dropdown" align="left">
 	<button class="dropbtn"><fmt:message key="admin_menu.button.doctors"/></button>
 	<div class="dropdown-content">

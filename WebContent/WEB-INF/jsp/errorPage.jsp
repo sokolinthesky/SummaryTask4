@@ -2,6 +2,7 @@
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 <html>
 <!-- Head -->
+<c:set var="title" scope="request" value="Error page"/>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 <body class="security-app">
 
