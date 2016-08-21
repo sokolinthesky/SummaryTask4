@@ -18,7 +18,17 @@ import org.apache.log4j.Logger;
  */
 public class ConnectionPool {
 	private static DataSource dataSource;
-	
+
+	/**
+	 * Data source without JNDI.
+	 * 
+	 * @param dataSource
+	 *            specified data source.
+	 */
+	public ConnectionPool(DataSource dataSource) {
+		ConnectionPool.dataSource = dataSource;
+	}
+
 	private final static Logger LOG = Logger.getLogger(ConnectionPool.class);
 
 	/**

@@ -3,6 +3,7 @@
 <html>
 
 <!-- head  -->
+<c:set var="title" scope="request" value="Login"/>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 
 <body class="security-app">
