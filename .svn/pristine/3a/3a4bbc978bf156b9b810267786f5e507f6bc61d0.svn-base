@@ -1,0 +1,107 @@
+package ua.nure.soklakov.SummaryTask4.web.commands;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
+import ua.nure.soklakov.SummaryTask4.Path;
+import ua.nure.soklakov.SummaryTask4.core.patient.HospitalCard;
+import ua.nure.soklakov.SummaryTask4.core.patient.Patient;
+import ua.nure.soklakov.SummaryTask4.core.patient.PatientManager;
+import ua.nure.soklakov.SummaryTask4.core.patient.PatientManagerImpl;
+import ua.nure.soklakov.SummaryTask4.core.patient.Treatment;
+import ua.nure.soklakov.SummaryTask4.core.patient.TypeOfTreatment;
+import ua.nure.soklakov.SummaryTask4.core.user.User;
+import ua.nure.soklakov.SummaryTask4.core.user.UserManager;
+import ua.nure.soklakov.SummaryTask4.core.user.UserManagerImpl;
+import ua.nure.soklakov.SummaryTask4.web.ActionType;
+
+/**
+ * Complete the course of treatment command for specified patient.
+ * 
+ * @author Oleg Soklakov
+ *
+ */
+public class CompleateTheCourseOfTreatmentCommand extends Command {
+
+	private static final long serialVersionUID = -5220729644390411869L;
+
+	private static final Logger LOG = Logger.getLogger(CompleateTheCourseOfTreatmentCommand.class);
+
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
+			throws IOException, ServletException {
+		LOG.debug("Start executing Command");
+
+		String result = null;
+
+		if (ActionType.POST == actionType) {
+			result = doPost(request, response);
+		}
+
+		LOG.debug("Finished executing Command");
+		return result;
+	}
+
+	/**
+	 * Redirect to view discharged patients after completing course of treatment
+	 * for patient.
+	 * 
+	 * @return path to view all discharged patients.
+	 */
+	private String doPost(HttpServletRequest request, HttpServletResponse response) {
+		PatientManager patientManager = new PatientManagerImpl();
+		UserManager userManager = new UserManagerImpl();
+
+		// get current hospital card id from session
+		int hospitalCardId = (int) request.getSession().getAttribute("hospitalCardId");
+		LOG.trace("Hospital card id: " + hospitalCardId);
+
+		// get all data about current patient
+		HospitalCard hospitalCard = patientManager.getHospitalCardById(hospitalCardId);
+		List<Treatment> treatments = patientManager.getTreatmentsByCardId(hospitalCardId);
+		Patient patient = patientManager.getPatientByHospitalCardId(hospitalCardId);
+		LOG.trace("Patient data: id: " + patient.getId() + ", firstName: " + patient.getFirstName() + ", lastName: "
+				+ patient.getLastName() + ",date: " + patient.getBirthday() + ", cardId: " + patient.getCardId()
+				+ ", doctorID: " + patient.getDoctorId());
+		User doctor = userManager.getUserById(patient.getDoctorId());
+
+		// write data to file
+		try {
+			PrintWriter writer = new PrintWriter(
+					"C:/workspace_eclipse/SummaryTask4/WebContent/WEB-INF/DischangedPatients/" + patient.getFirstName()
+							+ patient.getLastName() + ".txt",
+					"UTF-8");
+
+			writer.write("FirstName: " + patient.getFirstName() + "\r\n");
+			writer.write("LastName: " + patient.getLastName() + "\r\n");
+			writer.write("Diagmosis: " + hospitalCard.getDiagnosis() + "\r\n");
+			writer.write("Doctor: " + doctor.getFirstName() + " " + doctor.getLastName() + "\r\n");
+			writer.write("Treatments:\r\n");
+
+			// write all history of treatment
+			for (Treatment t : treatments) {
+				writer.write(" TypeOfTreatment: " + TypeOfTreatment.getTypeOfTreatment(t) + " | Name: "
+						+ t.getNameOfMedication() + " | isDone: " + t.isDone() + "\r\n");
+			}
+
+			writer.close();
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			LOG.error("Can not write data to file");
+		}
+
+		// complete course of treatment
+		patientManager.completeTheCourseOfTreatment(patient);
+
+		return Path.REDIRECT_TO_VIEW_DISCHARGED_PATIENTS;
+	}
+
+}

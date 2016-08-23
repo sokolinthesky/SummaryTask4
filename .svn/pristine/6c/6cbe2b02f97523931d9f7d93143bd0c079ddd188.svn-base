@@ -1,0 +1,8 @@
+FirstName: pattt
+LastName: pattt
+Diagmosis: sadasdasd
+Doctor: doccc doccc
+Treatments:
+ TypeOfTreatment: PROCEDURE | Name: asdasdasdasd | isDone: true
+ TypeOfTreatment: MEDICINE | Name: sadasdasdasd | isDone: true
+ TypeOfTreatment: OPERATION | Name: asdad | isDone: true

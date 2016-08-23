@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	
+	<display-name>SummaryTask4</display-name>
+	
+	<resource-ref>
+		<description>Database for university admission</description>
+		<res-ref-name>jdbc/hospitaldb</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<resource-ref>
+    	<description>Admission mail</description>
+    	<res-ref-name>mail/Session</res-ref-name>
+    	<res-type>javax.mail.Session</res-type>
+   	 	<res-auth>Container</res-auth>
+   	 	<res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+    
+    <!-- Custom tag used in list of patients pages -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/WEB-INF/patientCustomTag</taglib-uri>
+			<taglib-location>/WEB-INF/patientCustomTag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!--============================================================ 
+		Front Controller 
+	============================================================= -->
+	<servlet>
+		<servlet-name>FrontController</servlet-name>
+		<servlet-class>ua.nure.soklakov.SummaryTask4.web.FrontController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FrontController</servlet-name>
+		<url-pattern>/controller</url-pattern>
+	</servlet-mapping>
+
+	<!--============================================================ 
+		Context listener 
+	============================================================= -->
+	<listener>
+		<listener-class>ua.nure.soklakov.SummaryTask4.web.listener.ContextListener</listener-class>
+	</listener>
+
+	<!--============================================================
+	Access support filter
+	=============================================================-->
+	<filter>
+		<filter-name>AccessFilter</filter-name>
+		<filter-class>ua.nure.soklakov.SummaryTask4.web.filters.AccessFilter</filter-class>
+		<init-param>
+			<param-name>admin</param-name>
+			<param-value>listDoctors listDoctorsBySpecialization addUser addPatient appointDoctor listPatients</param-value>
+		</init-param>
+		<init-param>
+			<param-name>doctor</param-name>
+			<param-value>listPatientsByDoctorId hospitalCard addTreatment compleateTreatment listDischargedPatients 
+			compleateCourseOfTreatment downloadFile</param-value>
+		</init-param>
+		<init-param>
+			<param-name>nurse</param-name>
+			<param-value>listPatients hospitalCard compleateTreatment</param-value>
+		</init-param>
+		<init-param>
+			<param-name>common</param-name>
+			<param-value>logout noCommand language login  </param-value>
+		</init-param>
+		<init-param>
+			<param-name>out-of-control</param-name>
+			<param-value>login</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessFilter</filter-name>
+		<servlet-name>FrontController</servlet-name>
+	</filter-mapping>
+	
+	<!--============================================================
+	Encoding support filter
+	=============================================================-->
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>ua.nure.soklakov.SummaryTask4.web.filters.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<servlet-name>FrontController</servlet-name>
+	</filter-mapping>
+	
+	<!--============================================================
+	Error page
+	=============================================================-->
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/jsp/errorPage.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/errorPage.jsp</location>
+	</error-page>
+</web-app>

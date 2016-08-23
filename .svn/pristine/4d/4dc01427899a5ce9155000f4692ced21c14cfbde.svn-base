@@ -1,0 +1,4 @@
+log4j.rootLogger = TRACE, console
+log4j.appender.console = org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout = org.apache.log4j.EnhancedPatternLayout
+log4j.appender.console.layout.ConversionPattern = [%5p] %14c{1}(%M):%3L - %m%n

@@ -1,0 +1,35 @@
+<!-- Header - top area. -->
+
+<%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+
+
+<div class="details">
+	<img alt="" src="img/red-cross (1).png">
+	<h2>Hospital Management System</h2>
+	<br>
+	
+	<!-- User info -->
+	<c:if test="${not empty userRole}">
+		<b><c:out value="${user.firstName} ${user.lastName} (${userRole.name})" /></b>
+		<a href="controller?command=logout" style="color:#f2f2f2"><fmt:message key="header.logout"/></a>
+	</c:if>
+
+		<!-- Language -->
+		<div style="height:20px;">
+			<form action="controller" method="post" class="fr">
+				<input type="hidden" name="command" value="language">
+				<input type="hidden" name="language" value="en">
+				<input type="hidden" name=url value="${requestScope['javax.servlet.forward.query_string']}">
+				<input type="image" src="img/usa.png" alt="Submit">
+			</form>
+			<form action="controller" method="post" class="fr">
+				<input type="hidden" name="command" value="language">
+				<input type="hidden" name="language" value="uk">
+				<input type="hidden" name=url value="${requestScope['javax.servlet.forward.query_string']}">
+				<input type="image" src="img/ua.png" alt="Submit">
+			</form>
+		</div>
+
+</div>
+
