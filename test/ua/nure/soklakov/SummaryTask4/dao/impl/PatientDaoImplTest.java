@@ -16,14 +16,14 @@ public class PatientDaoImplTest {
 	private static int hospitalCardId;
 	private static Patient testPatient;
 	private static Treatment testTretment;
-	
+
 	@SuppressWarnings("deprecation")
 	@BeforeClass
 	public static void beforeClass() {
 		patienDao = new PatientDaoImpl();
-		testPatient = new Patient("test", "test" , new Date(2006, 2, 2));
+		testPatient = new Patient("test", "test", new Date(2006, 2, 2));
 		testTretment = new Treatment(0, 1, hospitalCardId, "test", false);
-		
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
@@ -35,69 +35,77 @@ public class PatientDaoImplTest {
 			System.out.println("Cannot get DataSource without JNDI");
 		}
 	}
-	
+
 	@Test
 	public void testGetListPatients() {
 		Assert.assertNotNull(patienDao.getPatients());
 	}
-	
+
 	@Test
 	public void testGetTypesOfTreatment() {
 		Assert.assertNotNull(patienDao.getTypesOfTreatment());
 	}
-	
+
 	@Test
 	public void testGetPatientsByDoctorId() {
 		Assert.assertNotNull(patienDao.getPatientsByDoctorId(2));
 	}
-	
+
 	@Test
 	public void testAddPatientWithHospitalCarrd() {
 		hospitalCardId = patienDao.addHospitalCard();
-		
+
 		testPatient.setCardId(hospitalCardId);
 		patienDao.addPatient(testPatient);
 	}
-	
+
 	@Test
 	public void testSetDoctorToPatient() {
 		patienDao.setDoctorToPatient(0, 2);
 	}
-	
+
 	@Test
 	public void testUpdateDiagnosisInHospitalCard() {
 		patienDao.updateDiagnosisInHospitalCard(hospitalCardId, "testDiagnosis");
 	}
-	
+
 	@Test
 	public void testAddTreatmentAndGetTreamentByHospitalCardId() {
 		testTretment.setHospitalCardId(hospitalCardId);
 		patienDao.addTreatment(testTretment);
-		Assert.assertTrue(patienDao.getTreatmentsByCardId(hospitalCardId).size() > 0 );
+		Assert.assertTrue(patienDao.getTreatmentsByCardId(hospitalCardId).size() > 0);
 	}
-	
+
 	@Test
 	public void testFinishTreatment() {
 		patienDao.finishTreatment(testTretment.getId());
 	}
-	
-	@Test
-	public void testGetHospitalCardById() {
-		Assert.assertNotNull(patienDao.getHospitalCardById(hospitalCardId));
-	}
-	
-	@Test
-	public void testGetPatientByHospitalCardId() {
-		Assert.assertNotNull(patienDao.getPatientByHospitalCardId(hospitalCardId));
-	}
-	
+
 	@Test
 	public void testGetDischargedPatirnts() {
 		Assert.assertTrue(patienDao.getDischargedPatientsByDoctorId(2).size() > 0);
 	}
-	
+
 	@Test
 	public void testComplrateCourseOfTreatment() {
 		patienDao.completeTheCourseOfTreatment(testPatient);
+	}
+
+	@Test
+	public void testGetHospitalCardById() {
+		int id = 2;
+		if (hospitalCardId != 0) {
+			id = hospitalCardId;
+		}
+		Assert.assertNotNull(patienDao.getHospitalCardById(id));
+	}
+
+	@Test
+	public void testGetPatientByHospitalCardId() {
+		int id = 2;
+		if (hospitalCardId != 0) {
+			id = hospitalCardId;
+		}
+		Assert.assertNotNull(patienDao.getPatientByHospitalCardId(id));
 	}
 }
