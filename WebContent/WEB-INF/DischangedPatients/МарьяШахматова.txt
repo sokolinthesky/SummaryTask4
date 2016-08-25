@@ -1,0 +1,9 @@
+FirstName: Марья
+LastName: Шахматова
+Diagmosis: Аллергияhjk
+Doctor: Petr Petrov
+Treatments:
+ TypeOfTreatment: MEDICINE | Name: Назол | isDone: true
+ TypeOfTreatment: OPERATION | Name: vjbnbbnmb | isDone: true
+ TypeOfTreatment: PROCEDURE | Name: клизма | isDone: true
+ TypeOfTreatment: MEDICINE | Name: лол | isDone: true
