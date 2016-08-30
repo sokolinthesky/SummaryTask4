@@ -73,7 +73,7 @@ public class PatientDaoImplTest {
 	public void testAddTreatmentAndGetTreamentByHospitalCardId() {
 		testTretment.setHospitalCardId(hospitalCardId);
 		patienDao.addTreatment(testTretment);
-		Assert.assertTrue(patienDao.getTreatmentsByCardId(hospitalCardId).size() > 0);
+		Assert.assertNotNull(patienDao.getTreatmentsByCardId(hospitalCardId));
 	}
 
 	@Test

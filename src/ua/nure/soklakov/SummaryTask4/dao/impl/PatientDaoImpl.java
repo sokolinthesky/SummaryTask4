@@ -301,8 +301,7 @@ public class PatientDaoImpl implements PatientDao {
 				PreparedStatement psHospitalCard = connection.prepareStatement(Query.DELETE_HOSPITAL_CARD_BY_ID);
 				PreparedStatement psDoctorCount = connection.prepareStatement(Query.DECREMENT_COUNT_OF_PATIENTS);
 				PreparedStatement psDischargedPatient = connection.prepareStatement(Query.INSERT_DISCHARGED_PATIENT);
-				PreparedStatement psTreatments = connection
-						.prepareStatement(Query.DELETE_TREATMENTS_BY_HOSPITAL_CARD_ID);) {
+				PreparedStatement psTreatments = connection.prepareStatement(Query.DELETE_TREATMENTS_BY_HOSPITAL_CARD_ID);) {
 			connection.setAutoCommit(false);
 
 			LOG.trace("Patient data: id: " + patient.getId() + ", firstName: " + patient.getFirstName() + ", lastName: "
@@ -313,6 +312,10 @@ public class PatientDaoImpl implements PatientDao {
 			psPatient.setInt(1, patient.getId());
 			psPatient.executeUpdate();
 
+			// set hospital card id for delete treatments
+			psTreatments.setInt(1, patient.getCardId());
+			psTreatments.executeUpdate();
+			
 			// set hospital card id for delete
 			psHospitalCard.setInt(1, patient.getCardId());
 			psHospitalCard.executeUpdate();
@@ -327,9 +330,6 @@ public class PatientDaoImpl implements PatientDao {
 			psDischargedPatient.setDate(3, patient.getBirthday());
 			psDischargedPatient.setInt(4, patient.getDoctorId());
 			psDischargedPatient.executeUpdate();
-
-			psTreatments.setInt(1, patient.getCardId());
-			psTreatments.executeUpdate();
 
 			connection.commit();
 		} catch (SQLException ex) {

@@ -76,7 +76,7 @@
 			<form action="controller" method="post">
 				<input type="hidden" name="command" value="compleateCourseOfTreatment">
 				<fmt:message key="hospital_card.submit.compleate" var="compleate"/>
-				<input type="submit" value="${compleate}" class="button blue middle">
+				<input type="submit" value="${compleate}" class="button green middle">
 			</form>
 			<br>
 		</c:if>

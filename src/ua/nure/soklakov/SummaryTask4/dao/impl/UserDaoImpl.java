@@ -86,8 +86,13 @@ public class UserDaoImpl implements UserDao {
 			pStatement.setString(3, user.getFirstName());
 			pStatement.setString(4, user.getLastName());
 			pStatement.setInt(5, user.getRoleId());
-			pStatement.setInt(6, user.getSpecializationId());
-			pStatement.setInt(7, user.getCountOfPatients());
+			if (user.getSpecializationId() == 0) {
+				pStatement.setNull(6, java.sql.Types.INTEGER);
+				pStatement.setNull(7, java.sql.Types.INTEGER);
+			} else {
+				pStatement.setInt(6, user.getSpecializationId());
+				pStatement.setInt(7, user.getCountOfPatients());
+			}
 			pStatement.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -185,7 +190,7 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery(Query.SELECT_ALL_SPECIALIZATIONS)) {
 			while (resultSet.next()) {
-				
+
 				// create specialization entity set id and add to list
 				for (Specialization specialization : Specialization.values()) {
 					if (resultSet.getString("title").toUpperCase().equals(specialization.toString())) {

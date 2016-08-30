@@ -4,12 +4,12 @@ drop database if exists hospitaldb;
 create database hospitaldb;
 use hospitaldb;
 
-CREATE TABLE IF NOT EXISTS hospital_card (
+CREATE TABLE IF NOT EXISTS hospital_cards (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     diagnosis varchar(150)
 ) DEFAULT CHARSET=utf8;
 
-insert into hospital_card (id, diagnosis) values
+insert into hospital_cards (id, diagnosis) values
 (1, 'Желтуха'),
 (2, 'Аллергия'),
 (3, 'Гайморит'),
@@ -43,29 +43,29 @@ INSERT INTO specializations (id, title) VALUES
 
 
 
-CREATE TABLE IF NOT EXISTS type_of_treatment (
+CREATE TABLE IF NOT EXISTS types_of_treatment (
   id int(11) NOT NULL AUTO_INCREMENT,
   title varchar(30) NOT NULL,
   PRIMARY KEY (id)
 );
 
 
-INSERT INTO type_of_treatment (id, title) VALUES
+INSERT INTO types_of_treatment (id, title) VALUES
 (1, 'Procedure'),
 (2, 'Medicine'),
 (3, 'Operation');
 
-CREATE TABLE treatment (
+CREATE TABLE treatments (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     hospital_card_id INT(11) NOT NULL,
     type_of_treatment_id INT(11) NOT NULL,
     name_of_medication VARCHAR(40) NOT NULL,
     done TINYINT(1) DEFAULT NULL,
-	foreign key (hospital_card_id) references hospital_card(id),
-    foreign key (type_of_treatment_id) references type_of_treatment(id)
+	foreign key (hospital_card_id) references hospital_cards(id),
+    foreign key (type_of_treatment_id) references types_of_treatment(id)
 );
 
-INSERT INTO treatment (id, hospital_card_id, type_of_treatment_id, name_of_medication, done) VALUES
+INSERT INTO treatments (id, hospital_card_id, type_of_treatment_id, name_of_medication, done) VALUES
 (1, 1, 2, 'Назол', 1),
 (2, 2, 2, 'Назол', 0),
 (3, 3, 2, 'Метионин', 0),
@@ -116,7 +116,7 @@ CREATE TABLE patients (
     doctor_id INT(11) DEFAULT NULL,
     card_id INT(11) DEFAULT NULL,
     foreign key (doctor_id) references users(id),
-    foreign key (card_id) references hospital_card(id)
+    foreign key (card_id) references hospital_cards(id)
 );
 
 INSERT INTO patients (id, first_name, last_name, birthday, doctor_id, card_id) VALUES

@@ -1,0 +1,9 @@
+FirstName: pat1
+LastName: pat1
+Diagmosis: диагноз
+Doctor: doc1 doc1
+Treatments:
+ TypeOfTreatment: PROCEDURE | Name: процедура1 | isDone: true
+ TypeOfTreatment: MEDICINE | Name: лечение2 | isDone: true
+ TypeOfTreatment: OPERATION | Name: операция4 | isDone: true
+ TypeOfTreatment: OPERATION | Name: операция44 | isDone: true

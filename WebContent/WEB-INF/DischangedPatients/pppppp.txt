@@ -1,0 +1,9 @@
+FirstName: ppp
+LastName: ppp
+Diagmosis: диагноз
+Doctor: ddd ddd
+Treatments:
+ TypeOfTreatment: PROCEDURE | Name: выфвфыв | isDone: true
+ TypeOfTreatment: OPERATION | Name: вапвап | isDone: true
+ TypeOfTreatment: OPERATION | Name: опера | isDone: true
+ TypeOfTreatment: MEDICINE | Name: лолол | isDone: true
