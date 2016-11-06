@@ -17,6 +17,9 @@ public class Path {
 	public static final String FORWARD_USER_ADD = "/WEB-INF/jsp/addUserForm.jsp";
 	public static final String FORWARD_PATIENT_ADD = "/WEB-INF/jsp/addPatientForm.jsp";
 	public static final String FORWARD_HOSPITAL_CARD = "/WEB-INF/jsp/hospitalCard.jsp";
+	
+	//task
+	public static final String FORWARD_GET_PATIENTS = "/WEB-INF/jsp/getPatients.jsp";
 
 	public static final String REDIRECT_TO_VIEW_ALL_DOCTORS = "controller?command=listDoctors";
 	public static final String REDIRECT_TO_VIEW_ALL_PATIENTS = "controller?command=listPatients";

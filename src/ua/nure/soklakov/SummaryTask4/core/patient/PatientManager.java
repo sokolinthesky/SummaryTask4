@@ -127,4 +127,11 @@ public interface PatientManager {
 	 *            specified treatment id.
 	 */
 	void finishTreatment(int treatmentId);
+	
+	/**
+	 * Get patients by type of treatment 'operation'
+	 * 
+	 * @return list patients.
+	 */
+	List<Patient> getPatientsByTreatmentOperation();
 }

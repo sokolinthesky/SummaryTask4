@@ -1,8 +1,0 @@
-FirstName: papapa
-LastName: papapa
-Diagmosis: dasdasd
-Doctor: dooc DOOC
-Treatments:
- TypeOfTreatment: PROCEDURE | Name: sadasdasd | isDone: true
- TypeOfTreatment: PROCEDURE | Name: sdaf | isDone: true
- TypeOfTreatment: OPERATION | Name: asdassad | isDone: true

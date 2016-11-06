@@ -1,0 +1,8 @@
+FirstName: patienttest
+LastName: patienttest
+Diagmosis: дигноз
+Doctor: doctortest doctortest
+Treatments:
+ TypeOfTreatment: PROCEDURE | Name: леение | isDone: true
+ TypeOfTreatment: PROCEDURE | Name: лечение2 | isDone: true
+ TypeOfTreatment: OPERATION | Name: операция | isDone: true

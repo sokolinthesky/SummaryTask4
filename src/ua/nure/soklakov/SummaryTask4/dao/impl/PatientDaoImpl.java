@@ -352,4 +352,23 @@ public class PatientDaoImpl implements PatientDao {
 			}
 		}
 	}
+
+	@Override
+	public List<Patient> getPatientsByTreatmentOperation() {
+		List<Patient> patients = new ArrayList<>();
+		connection = ConnectionPool.getConnection();
+		try (Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery(Query.SELECT_PATIENTS_BY_DIAGNOSIS)) {
+			while (rs.next()) {
+				patients.add(new Patient(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+						rs.getDate("birthday"), rs.getInt("doctor_id"), rs.getInt("card_id")));
+			}
+
+		} catch (SQLException ex) {
+			LOG.error("Can not find a patients", ex);
+		} finally {
+			closeConnection();
+		}
+		return patients;
+	}
 }

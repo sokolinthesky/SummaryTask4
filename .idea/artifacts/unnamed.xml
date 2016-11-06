@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="unnamed">
+    <output-path>C:/Program Files/Apache Software Foundation/Tomcat 8.0/webapps</output-path>
+    <root id="archive" name="unnamed.war">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="SummaryTask4" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="javax.mail.jar" module-name="SummaryTask4" />
+          <element id="library" level="module" name="junit4" module-name="SummaryTask4" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

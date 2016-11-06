@@ -5,6 +5,5 @@ Doctor: Petr Petrov
 Treatments:
  TypeOfTreatment: MEDICINE | Name: Назол | isDone: true
  TypeOfTreatment: PROCEDURE | Name: процедура1 | isDone: true
- TypeOfTreatment: MEDICINE | Name: лечение1 | isDone: true
  TypeOfTreatment: OPERATION | Name: операция1 | isDone: true
- TypeOfTreatment: OPERATION | Name: операция2 | isDone: true
+ TypeOfTreatment: MEDICINE | Name: мед1 | isDone: true

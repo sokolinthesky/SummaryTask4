@@ -65,7 +65,7 @@
 		<init-param>
 			<param-name>doctor</param-name>
 			<param-value>listPatientsByDoctorId hospitalCard addTreatment compleateTreatment listDischargedPatients 
-			compleateCourseOfTreatment downloadFile</param-value>
+			compleateCourseOfTreatment downloadFile listPatientByTreatment listPatients</param-value>
 		</init-param>
 		<init-param>
 			<param-name>nurse</param-name>

@@ -1,0 +1,8 @@
+FirstName: Анатолий
+LastName: Трубин
+Diagmosis: Диагноз
+Doctor: Petr Petrov
+Treatments:
+ TypeOfTreatment: PROCEDURE | Name: процедура | isDone: true
+ TypeOfTreatment: MEDICINE | Name: препарат | isDone: true
+ TypeOfTreatment: OPERATION | Name: операция | isDone: true

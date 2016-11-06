@@ -37,4 +37,7 @@ public class Query {
 	public static final String DELETE_HOSPITAL_CARD_BY_ID = "DELETE FROM hospital_cards WHERE id = ?";
 	public static final String INSERT_DISCHARGED_PATIENT = "INSERT INTO discharged_patients (first_name, last_name, birthday, doctor_id) VALUES (?, ?, ?, ?)";
 	public static final String DELETE_TREATMENTS_BY_HOSPITAL_CARD_ID = "DELETE FROM treatments WHERE hospital_card_id = ?";
+	
+	//task
+	public static final String SELECT_PATIENTS_BY_DIAGNOSIS = "select * from patients inner join treatments on patients.card_id = treatments.hospital_card_id where type_of_treatment_id = 3";
 }

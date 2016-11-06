@@ -33,6 +33,9 @@ public class CommandManager {
 		commands.put("listDischargedPatients", new ListDischargedPatientsCommand());
 		commands.put("compleateCourseOfTreatment", new CompleateTheCourseOfTreatmentCommand());
 		commands.put("downloadFile", new DownloadFileCommand());
+		
+		//task
+		commands.put("listPatientByTreatment", new ListPatientsByTreatmentCommand());
 
 		// admin commands
 		commands.put("listDoctors", new ListDoctorsCommand());

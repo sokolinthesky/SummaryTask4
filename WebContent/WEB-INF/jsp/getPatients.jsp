@@ -22,7 +22,7 @@
 			<div>
 				<a href="controller?command=listDischargedPatients" ><button class="dropbtn" type="button"><fmt:message key="hospital_card.button.discharged_patients"/></button></a> 
 				<a href="controller?command=listPatientsByDoctorId"><button class="dropbtn" type="button"><fmt:message key="hopital_card.button.patients"/></button></a>
-				<a href="controller?command=listPatientByTreatment&doctorId=${user.id}"><button class="dropbtn" type="button">Get new patient</button></a>
+				<a href="controller?command=listPatientByTreatment"><button class="dropbtn" type="button">Get new patient</button></a>
 			</div><br>
 		</c:if>
 		
@@ -55,6 +55,13 @@
 										<input type="hidden" name="hospitalCardId" value="${patient.cardId}">
 										<fmt:message key="patients.submit.hospital_card" var="hospitalCard"/>
 										<input type="submit" value="${hospitalCard}" class="button red small">
+									</form>
+									
+									<form action="controller" method="post">
+										<input type="hidden" name="command" value="listPatientByTreatment">
+										<input type="hidden" name="patientId" value="${patient.id}">
+										<input type="hidden" name="doctorId" value="${user.id}">
+										<input type="submit" value="get" class="button green small">
 									</form>
 							
 								</c:if>

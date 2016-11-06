@@ -87,4 +87,9 @@ public class PatientManagerImpl implements PatientManager {
 		return patientDao.getPatientByHospitalCardId(hospitalCardId);
 	}
 
+	@Override
+	public List<Patient> getPatientsByTreatmentOperation() {
+		return patientDao.getPatientsByTreatmentOperation();
+	}
+
 }
